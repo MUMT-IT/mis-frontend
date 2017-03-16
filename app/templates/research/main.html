@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}MIS-Research{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script>
+    var viewModel = function() {
+        this.articles = ko.observableArray();
+    };
+    var vm = new viewModel();
+    $.getJSON("http://localhost:5050/api/abstracts/2017", function(data) {
+        vm.articles(data.data);
+    });
+    ko.applyBindings(vm);
+</script>
+
+{% endblock %}
+{% block page_content %}
+    <h1>Main Page</h1>
+
+    <h3>Research Articles</h3>
+    <table class="table">
+        <thead>
+            <th>Title</th>
+            <th>Abstract</th>
+            <th>Citations</th>
+        </thead>
+        <tbody data-bind="foreach: articles">
+            <tr>
+                <td data-bind="text: title"></td>
+                <td data-bind="text: journal"></td>
+                <td data-bind="text: cover_date"></td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

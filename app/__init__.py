@@ -8,5 +8,8 @@ def create_db():
     bootstrap.init_app(app)
 
     from app.main import main_blueprint
-    app.register_blueprint(main_blueprint, end_point='/')
+    app.register_blueprint(main_blueprint, url_prefix='/')
+
+    from app.research import research_blueprint
+    app.register_blueprint(research_blueprint, url_prefix='/research')
     return app
