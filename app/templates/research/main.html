@@ -3,32 +3,63 @@
 {% block scripts %}
 {{ super() }}
 <script>
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May',
+                    'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var viewModel = function() {
-        this.articles = ko.observableArray();
+        this.articles = ko.observableArray([]);
+        this.reverse_sort = ko.observable(false);
     };
     var vm = new viewModel();
     $.getJSON("http://localhost:5050/api/abstracts/2017", function(data) {
-        vm.articles(data.data);
+        $.each(data.data, function(idx, d) {
+            var auths = [];
+            $.each(d.authors, function(ix, au) {
+                auths.push(au.name);
+            });
+            var date = new Date(d.cover_date);
+            date = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+            var abs = {
+                title: d.title,
+                journal: d.journal,
+                cover_date: new Date(d.cover_date),
+                authors: auths.join(', '),
+                cover_date_string: date
+            };
+            vm.articles.push(abs);
+        });
     });
     ko.applyBindings(vm);
+    function sortArticlesByDate() {
+        vm.articles.sort(function(a,b) {
+            if(vm.reverse_sort()===false) {
+                return a.cover_date < b.cover_date;
+            } else {
+                return a.cover_date > b.cover_date;
+            }
+        });
+        vm.reverse_sort(!vm.reverse_sort()); // toggle sort order
+        console.log(vm.reverse_sort());
+    };
 </script>
-
 {% endblock %}
+
 {% block page_content %}
     <h1>Main Page</h1>
-
     <h3>Research Articles</h3>
+    <button data-bind="click: sortArticlesByDate">Sort by Date</button>
     <table class="table">
         <thead>
             <th>Title</th>
             <th>Abstract</th>
             <th>Citations</th>
+            <th>Authors</th>
         </thead>
         <tbody data-bind="foreach: articles">
             <tr>
                 <td data-bind="text: title"></td>
                 <td data-bind="text: journal"></td>
-                <td data-bind="text: cover_date"></td>
+                <td data-bind="text: cover_date_string"></td>
+                <td data-bind="text: authors"></td>
             </tr>
         </tbody>
     </table>
