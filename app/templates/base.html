@@ -1,4 +1,13 @@
 {% extends "bootstrap/base.html" %}
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='vendors/jquery.min.js') }}"
+    type="text/javascript">
+</script>
+<script src="{{ url_for('static', filename='vendors/knockout.js') }}"
+    type="text/javascript">
+</script>
+{% endblock %}
 
 {% block title %}MIS{% endblock %}
 {% block content %}

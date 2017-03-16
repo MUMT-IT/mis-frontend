@@ -1,5 +1,21 @@
 {% extends "base.html" %}
 {% block title %}MIS-Main{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script>
+    var viewModel = function() {
+        this.message = ko.observable();
+    };
+    var vm = new viewModel();
+    ko.applyBindings(vm);
+    vm.message('Hello, users!');
+</script>
+
+{% endblock %}
 {% block page_content %}
     <h1>Main Page</h1>
+
+    <h3 data-bind="text: message"></h3>
+    <p>Enter a greeting message here.</p>
+    <input type="text" data-bind="textInput: message"/>
 {% endblock %}
