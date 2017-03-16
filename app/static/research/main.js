@@ -6,9 +6,10 @@ var viewModel = function() {
     var self = this;
     self.articles = ko.observableArray([]);
     self.filteredArticles = ko.observableArray([]);
-    self.reverse_sort_date = ko.observable(false);
-    self.reverse_sort_title = ko.observable(false);
-    self.reverse_sort_journal = ko.observable(false);
+    self.reverseSortDate = ko.observable(false);
+    self.reverseSortTitle = ko.observable(false);
+    self.reverseSortJournal = ko.observable(false);
+    self.reverseSortCitation = ko.observable(false);
     self.query = ko.observable('');
     self.search = function (query) {
         self.filteredArticles([]);
@@ -53,33 +54,44 @@ ko.applyBindings(vm);
 vm.query.subscribe(vm.search);
 function sortArticlesByDate() {
     vm.filteredArticles.sort(function(a,b) {
-        if(vm.reverse_sort_date()===false) {
+        if(vm.reverseSortDate()===false) {
             return a.coverDate < b.coverDate;
         } else {
             return a.coverDate > b.coverDate;
         }
     });
-    vm.reverse_sort_date(!vm.reverse_sort_date()); // toggle sort order
+    vm.reverseSortDate(!vm.reverseSortDate()); // toggle sort order
 };
 
 function sortArticlesByTitle() {
     vm.filteredArticles.sort(function(a,b) {
-        if(vm.reverse_sort_title()===false) {
+        if(vm.reverseSortTitle()===false) {
             return a.title < b.title;
         } else {
             return a.title > b.title;
         }
     });
-    vm.reverse_sort_title(!vm.reverse_sort_title()); // toggle sort order
+    vm.reverseSortTitle(!vm.reverseSortTitle()); // toggle sort order
 };
 
 function sortArticlesByJournal() {
     vm.filteredArticles.sort(function(a,b) {
-        if(vm.reverse_sort_journal()===false) {
+        if(vm.reverseSortJournal()===false) {
             return a.journal < b.journal;
         } else {
             return a.journal > b.journal;
         }
     });
-    vm.reverse_sort_journal(!vm.reverse_sort_journal()); // toggle sort order
+    vm.reverseSortJournal(!vm.reverseSortJournal()); // toggle sort order
+};
+
+function sortArticlesByCitation() {
+    vm.filteredArticles.sort(function(a,b) {
+        if(vm.reverseSortCitation()===false) {
+            return a.citedByCount < b.citedByCount;
+        } else {
+            return a.citedByCount > b.citedByCount;
+        }
+    });
+    vm.reverseSortCitation(!vm.reverseSortCitation()); // toggle sort order
 };

@@ -23,18 +23,23 @@
     <div>
         <button class="btn btn-default" role="button"
             data-bind="click: sortArticlesByDate">Sort by Date
-            <span data-bind="visible: reverse_sort_date" class="glyphicon glyphicon-triangle-bottom"></span>
-            <span data-bind="visible: !reverse_sort_date()" class="glyphicon glyphicon-triangle-top"></span>
+            <span data-bind="visible: reverseSortDate" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span data-bind="visible: !reverseSortDate()" class="glyphicon glyphicon-triangle-top"></span>
         </button>
         <button class="btn btn-default" role="button"
             data-bind="click: sortArticlesByTitle">Sort by Title
-            <span data-bind="visible: reverse_sort_title" class="glyphicon glyphicon-triangle-bottom"></span>
-            <span data-bind="visible: !reverse_sort_title()" class="glyphicon glyphicon-triangle-top"></span>
+            <span data-bind="visible: reverseSortTitle" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span data-bind="visible: !reverseSortTitle()" class="glyphicon glyphicon-triangle-top"></span>
         </button>
         <button class="btn btn-default" role="button"
             data-bind="click: sortArticlesByJournal">Sort by Journal
-            <span data-bind="visible: reverse_sort_journal" class="glyphicon glyphicon-triangle-bottom"></span>
-            <span data-bind="visible: !reverse_sort_journal()" class="glyphicon glyphicon-triangle-top"></span>
+            <span data-bind="visible: reverseSortJournal" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span data-bind="visible: !reverseSortJournal()" class="glyphicon glyphicon-triangle-top"></span>
+        </button>
+        <button class="btn btn-default" role="button"
+            data-bind="click: sortArticlesByCitation">Sort by Citation
+            <span data-bind="visible: reverseSortCitation" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span data-bind="visible: !reverseSortCitation()" class="glyphicon glyphicon-triangle-top"></span>
         </button>
     </div>
 </div>
