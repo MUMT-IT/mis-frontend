@@ -8,9 +8,9 @@
 {% endblock %}
 
 {% block page_content %}
-    <h1>Main Page</h1>
-    <h3>Research Articles</h3>
+<div class="row">
     <div class="form-group col-xm-4">
+        <h3>Research Articles</h3>
         <div class="input-group">
             <div class="input-group-addon">
                 <span class="glyphicon glyphicon-search"></span>
@@ -20,24 +20,66 @@
                 placeholder="Search for title, journal and authors..."/>
         </div>
     </div>
-    <button class="btn btn-default" role="button"
-        data-bind="click: sortArticlesByDate">Sort by Date</button>
+    <div>
+        <button class="btn btn-default" role="button"
+            data-bind="click: sortArticlesByDate">Sort by Date
+            <span data-bind="visible: reverse_sort_date" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span data-bind="visible: !reverse_sort_date()" class="glyphicon glyphicon-triangle-top"></span>
+        </button>
+        <button class="btn btn-default" role="button"
+            data-bind="click: sortArticlesByTitle">Sort by Title
+            <span data-bind="visible: reverse_sort_title" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span data-bind="visible: !reverse_sort_title()" class="glyphicon glyphicon-triangle-top"></span>
+        </button>
+        <button class="btn btn-default" role="button"
+            data-bind="click: sortArticlesByJournal">Sort by Journal
+            <span data-bind="visible: reverse_sort_journal" class="glyphicon glyphicon-triangle-bottom"></span>
+            <span data-bind="visible: !reverse_sort_journal()" class="glyphicon glyphicon-triangle-top"></span>
+        </button>
+    </div>
+</div>
+<div class="row">
     <table class="table">
         <thead>
             <th>Title</th>
-            <th>Abstract</th>
-            <th>Citations</th>
+            <th>Publisher</th>
+            <th>Date</th>
             <th>Authors</th>
         </thead>
         <tbody data-bind="foreach: {data: filteredArticles, as: 'article'}">
             <tr>
-                <td data-bind="text: article.title"></td>
+                <td>
+                    <span data-bind="text: article.title"></span> 
+                    <a href="#" role="button" data-toggle="modal"
+                        data-bind='attr: {"data-target": "#" + $index()}'>View abstract..</a> 
+                    <strong>Cited</strong> <span data-bind="text: article.citedByCount" class="badge"></span>
+                </td>
                 <td data-bind="text: article.journal"></td>
-                <td data-bind="text: article.cover_date_string"></td>
+                <td data-bind="text: article.coverDateString"></td>
                 <td data-bind="foreach: article.authors">
                     <a href="/" data-bind="text: name"></a>,
                 </td>
             </tr>
         </tbody>
     </table>
+    <!-- ko foreach: filteredArticles -->
+        <div class="modal fade" data-bind='attr: {"id": $index()}' role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h3 data-bind="text: $data.title"><h3>
+                        <h3><small><span data-bind="text: $data.journal"></span></small></h3>
+                        <h5 data-bind="text: $data.authorList"></h5>
+                        <h3>Abstract</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p data-bind="text: $data.text"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- /ko -->
+</div>
 {% endblock %}
