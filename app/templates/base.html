@@ -9,11 +9,32 @@
 </script>
 {% endblock %}
 
+{% block navbar %}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed"
+                data-toggle="collapse" data-target="#navbarCollapse" aria-expanded="false">
+            <span class="navbar-toggler-icon">Menu</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Brand</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+                <li class="active"><a href="/research">Research</a></li>
+            </ul>
+        </div> <!-- navbar collaspe -->
+    </div>
+</nav>
+{% endblock %}
+
 {% block title %}MIS{% endblock %}
 {% block content %}
 <div class="container">
-    <div class="page-header">
-    </div>
     {% block page_content %}
     {% endblock %}
 </div>
