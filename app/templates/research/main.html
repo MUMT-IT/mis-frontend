@@ -6,8 +6,25 @@
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May',
                     'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var viewModel = function() {
-        this.articles = ko.observableArray([]);
-        this.reverse_sort = ko.observable(false);
+        var self = this;
+        self.articles = ko.observableArray([]);
+        self.filteredArticles = ko.observableArray([]);
+        self.reverse_sort = ko.observable(false);
+        self.query = ko.observable('');
+        self.search = function (query) {
+            self.filteredArticles([]);
+            if(query === '') {
+                self.filteredArticles(self.articles());
+            } else {
+                $.each(self.articles(), function(idx, ab) {
+                    if(ab.title.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+                        ab.journal.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+                        ab.authors.toLowerCase().indexOf(query.toLowerCase()) > -1) {
+                        self.filteredArticles.push(ab);
+                    }
+                });
+            }
+        };
     };
     var vm = new viewModel();
     $.getJSON("http://localhost:5050/api/abstracts/2017", function(data) {
@@ -27,8 +44,10 @@
             };
             vm.articles.push(abs);
         });
+        vm.filteredArticles(vm.articles());
     });
     ko.applyBindings(vm);
+    vm.query.subscribe(vm.search);
     function sortArticlesByDate() {
         vm.articles.sort(function(a,b) {
             if(vm.reverse_sort()===false) {
@@ -46,6 +65,7 @@
 {% block page_content %}
     <h1>Main Page</h1>
     <h3>Research Articles</h3>
+    <input type="search" data-bind="textInput: query"/>
     <button data-bind="click: sortArticlesByDate">Sort by Date</button>
     <table class="table">
         <thead>
@@ -54,7 +74,7 @@
             <th>Citations</th>
             <th>Authors</th>
         </thead>
-        <tbody data-bind="foreach: articles">
+        <tbody data-bind="foreach: filteredArticles">
             <tr>
                 <td data-bind="text: title"></td>
                 <td data-bind="text: journal"></td>
