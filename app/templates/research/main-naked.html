@@ -1,0 +1,112 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}MIS-Research{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='vendors/jquery.min.js') }}"
+    type="text/javascript">
+</script>
+<script src="{{ url_for('static', filename='vendors/knockout.js') }}"
+    type="text/javascript">
+</script>
+<script src="{{ url_for('static', filename='vendors/Chart.min.js') }}"
+    type="text/javascript">
+</script>
+<script type="text/javascript"
+    src="{{ url_for('static', filename='research/main.js')}}">
+</script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    {% block page_content %}
+        <div class="row">
+            <h1 class="text-muted">Research Page</h1>
+        </div>
+        <div class="row">
+            <canvas id="articles_per_year"></canvas>
+        </div>
+        <div class="row">
+            <canvas id="citations_per_year"></canvas>
+        </div>
+        <div class="row">
+            <h3>Research Articles of The Year 2017</h3>
+            <div class="form-group col-xm-4">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </div>
+                    <input id="articleSearch" type="search"
+                        data-bind="textInput: query" class="form-control"
+                        placeholder="Search for title, journal and authors..."/>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-default" role="button"
+                    data-bind="click: sortArticlesByDate">Sort by Date
+                    <span data-bind="visible: reverseSortDate" class="glyphicon glyphicon-triangle-bottom"></span>
+                    <span data-bind="visible: !reverseSortDate()" class="glyphicon glyphicon-triangle-top"></span>
+                </button>
+                <button class="btn btn-default" role="button"
+                    data-bind="click: sortArticlesByTitle">Sort by Title
+                    <span data-bind="visible: reverseSortTitle" class="glyphicon glyphicon-triangle-bottom"></span>
+                    <span data-bind="visible: !reverseSortTitle()" class="glyphicon glyphicon-triangle-top"></span>
+                </button>
+                <button class="btn btn-default" role="button"
+                    data-bind="click: sortArticlesByJournal">Sort by Journal
+                    <span data-bind="visible: reverseSortJournal" class="glyphicon glyphicon-triangle-bottom"></span>
+                    <span data-bind="visible: !reverseSortJournal()" class="glyphicon glyphicon-triangle-top"></span>
+                </button>
+                <button class="btn btn-default" role="button"
+                    data-bind="click: sortArticlesByCitation">Sort by Citation
+                    <span data-bind="visible: reverseSortCitation" class="glyphicon glyphicon-triangle-bottom"></span>
+                    <span data-bind="visible: !reverseSortCitation()" class="glyphicon glyphicon-triangle-top"></span>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <th>Title</th>
+                    <th>Publisher</th>
+                    <th>Date</th>
+                    <th>Authors</th>
+                </thead>
+                <tbody data-bind="foreach: {data: filteredArticles, as: 'article'}">
+                    <tr>
+                        <td>
+                            <span data-bind="text: article.title"></span> 
+                            <a href="#" role="button" data-toggle="modal"
+                                data-bind='attr: {"data-target": "#" + $index()}'>View abstract..</a> 
+                            <strong>Cited</strong> <span data-bind="text: article.citedByCount" class="badge"></span>
+                        </td>
+                        <td data-bind="text: article.journal"></td>
+                        <td data-bind="text: article.coverDateString"></td>
+                        <td data-bind="foreach: article.authors">
+                            <a href="/" data-bind="text: name"></a>,
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- ko foreach: filteredArticles -->
+                <div class="modal fade" data-bind='attr: {"id": $index()}' role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h3 data-bind="text: $data.title"><h3>
+                                <h3><small><span data-bind="text: $data.journal"></span></small></h3>
+                                <h5 data-bind="text: $data.authorList"></h5>
+                                <h3>Abstract</h3>
+                            </div>
+                            <div class="modal-body">
+                                <p data-bind="text: $data.text"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- /ko -->
+        </div>
+    {% endblock %}
+    </div>
+{% endblock %}
