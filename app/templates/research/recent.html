@@ -1,0 +1,91 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}MIS-Research{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='vendors/jquery.min.js') }}"
+    type="text/javascript">
+</script>
+<script src="{{ url_for('static', filename='vendors/knockout.js') }}"
+    type="text/javascript">
+</script>
+<script src="{{ url_for('static', filename='vendors/Chart.min.js') }}"
+    type="text/javascript">
+</script>
+<script type="text/javascript"
+    src="{{ url_for('static', filename='research/main.js')}}">
+</script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    {% block page_content %}
+        <div class="row">
+            <div class="form-group col-xm-4">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </div>
+                    <input id="articleSearch" type="search"
+                        data-bind="textInput: query" class="form-control"
+                        placeholder="Search for title, journal and authors..."/>
+                </div>
+            </div>
+            <h4 data-bind="if: query()!==''">Found <span data-bind="text: filteredArticles().length"></span></h4>
+            <h3 data-bind="if: loading">Preparing the article list...</h3>
+            <h4>Page <span data-bind="text: currpage()+1"></span></h4>
+            <ul data-bind="foreach: {data: paginated, as: 'article'}">
+                <li>
+                    <strong><span data-bind="text: article.title"></span></strong>
+                    <a href="#" role="button" data-toggle="modal"
+                        data-bind='attr: {"data-target": "#" + $index()}'><span class="glyphicon glyphicon-list-alt"></span></a> 
+                     <span data-bind="text: 'Cited ' + article.citedByCount" class="badge"></span>
+                    <span data-bind="text: article.journal"></span>
+                    <span data-bind="text: article.coverDateString"></span>
+                    <small><span data-bind="foreach: article.authors">
+                        <a href="#" data-bind="text: name"></a>,
+                    </span></small>
+                </li>
+            </ul>
+            <h4>Page <span data-bind="text: currpage()+1"></span></h4>
+            <nav aria-label="Page navigation" data-bind="if: pages().length > 1">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" data-bind="click: function() { $root.currpage(0); }"
+                            aria-label="Previous">
+                            <span aria-hidden="true" class="glyphicon glyphicon-step-backward"></span>
+                        </a>
+                    </li>
+                    <!-- ko foreach: {data: pages, as: 'page'} -->
+                    <li><a href="#" data-bind="text: $data+1, click: function() { $root.currpage($data) }"></a></li>
+                    <!-- /ko -->
+                    <li>
+                        <a href="#" data-bind="click: function() { $root.currpage(pages()[pages().length-1]); }"
+                            aria-label="Next">
+                            <span aria-hidden="true" class="glyphicon glyphicon-step-forward"></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- ko foreach: filteredArticles -->
+                <div class="modal fade" data-bind='attr: {"id": $index()}' role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h3 data-bind="text: $data.title"><h3>
+                                <h3><small><span data-bind="text: $data.journal"></span></small></h3>
+                                <h5 data-bind="text: $data.authorList"></h5>
+                                <h3>Abstract</h3>
+                            </div>
+                            <div class="modal-body">
+                                <p data-bind="text: $data.text"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- /ko -->
+        </div>
+    {% endblock %}
+    </div>
+{% endblock %}
