@@ -19,7 +19,7 @@
     <canvas id="citations_per_year"></canvas>
 </div>
 <div class="row">
-    <h3>Research Articles of The Year 2017</h3>
+    <h3>Recent Research Articles 2010-present</h3>
     <div class="form-group col-xm-4">
         <div class="input-group">
             <div class="input-group-addon">
@@ -47,7 +47,7 @@
             <span data-bind="visible: !reverseSortJournal()" class="glyphicon glyphicon-triangle-top"></span>
         </button>
         <button class="btn btn-default" role="button"
-            data-bind="click: sortArticlesByCitation">Sort by Citation
+            data-bind="click: sortArticlesByCitation">Sort by Citation Count
             <span data-bind="visible: reverseSortCitation" class="glyphicon glyphicon-triangle-bottom"></span>
             <span data-bind="visible: !reverseSortCitation()" class="glyphicon glyphicon-triangle-top"></span>
         </button>
@@ -72,7 +72,7 @@
                 <td data-bind="text: article.journal"></td>
                 <td data-bind="text: article.coverDateString"></td>
                 <td data-bind="foreach: article.authors">
-                    <a href="/" data-bind="text: name"></a>,
+                    <a href="#" data-bind="text: name"></a>,
                 </td>
             </tr>
         </tbody>
