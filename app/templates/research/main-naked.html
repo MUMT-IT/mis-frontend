@@ -20,16 +20,13 @@
     <div class="container">
     {% block page_content %}
         <div class="row">
-            <h1 class="text-muted">Research Page</h1>
-        </div>
-        <div class="row">
             <canvas id="articles_per_year"></canvas>
         </div>
         <div class="row">
             <canvas id="citations_per_year"></canvas>
         </div>
         <div class="row">
-            <h3>Research Articles of The Year 2017</h3>
+            <h3>Recent Research Articles 2010-present</h3>
             <div class="form-group col-xm-4">
                 <div class="input-group">
                     <div class="input-group-addon">
@@ -40,12 +37,8 @@
                         placeholder="Search for title, journal and authors..."/>
                 </div>
             </div>
+            <h4 data-bind="if: query()!==''">Found <span data-bind="text: filteredArticles().length"></span></h4>
             <div>
-                <button class="btn btn-default" role="button"
-                    data-bind="click: sortArticlesByDate">Sort by Date
-                    <span data-bind="visible: reverseSortDate" class="glyphicon glyphicon-triangle-bottom"></span>
-                    <span data-bind="visible: !reverseSortDate()" class="glyphicon glyphicon-triangle-top"></span>
-                </button>
                 <button class="btn btn-default" role="button"
                     data-bind="click: sortArticlesByTitle">Sort by Title
                     <span data-bind="visible: reverseSortTitle" class="glyphicon glyphicon-triangle-bottom"></span>
@@ -57,13 +50,39 @@
                     <span data-bind="visible: !reverseSortJournal()" class="glyphicon glyphicon-triangle-top"></span>
                 </button>
                 <button class="btn btn-default" role="button"
-                    data-bind="click: sortArticlesByCitation">Sort by Citation
+                    data-bind="click: sortArticlesByDate">Sort by Date
+                    <span data-bind="visible: reverseSortDate" class="glyphicon glyphicon-triangle-bottom"></span>
+                    <span data-bind="visible: !reverseSortDate()" class="glyphicon glyphicon-triangle-top"></span>
+                </button>
+                <button class="btn btn-default" role="button"
+                    data-bind="click: sortArticlesByCitation">Sort by Citation Count
                     <span data-bind="visible: reverseSortCitation" class="glyphicon glyphicon-triangle-bottom"></span>
                     <span data-bind="visible: !reverseSortCitation()" class="glyphicon glyphicon-triangle-top"></span>
                 </button>
             </div>
         </div>
         <div class="row">
+            <h3 data-bind="if: loading">Preparing the article list...</h3>
+            <h4>Page <span data-bind="text: currpage()+1"></span></h4>
+            <nav aria-label="Page navigation" data-bind="if: pages().length > 1">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" data-bind="click: function() { $root.currpage(0); }"
+                            aria-label="Previous">
+                            <span aria-hidden="true" class="glyphicon glyphicon-step-backward"></span>
+                        </a>
+                    </li>
+                    <!-- ko foreach: {data: pages, as: 'page'} -->
+                    <li><a href="#" data-bind="text: $data+1, click: function() { $root.currpage($data) }"></a></li>
+                    <!-- /ko -->
+                    <li>
+                        <a href="#" data-bind=", click: function() { $root.currpage(pages()[pages().length-1]); }"
+                            aria-label="Next">
+                            <span aria-hidden="true" class="glyphicon glyphicon-step-forward"></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
             <table class="table">
                 <thead>
                     <th>Title</th>
@@ -71,7 +90,7 @@
                     <th>Date</th>
                     <th>Authors</th>
                 </thead>
-                <tbody data-bind="foreach: {data: filteredArticles, as: 'article'}">
+                <tbody data-bind="foreach: {data: paginated, as: 'article'}">
                     <tr>
                         <td>
                             <span data-bind="text: article.title"></span> 
@@ -82,11 +101,31 @@
                         <td data-bind="text: article.journal"></td>
                         <td data-bind="text: article.coverDateString"></td>
                         <td data-bind="foreach: article.authors">
-                            <a href="/" data-bind="text: name"></a>,
+                            <a href="#" data-bind="text: name"></a>,
                         </td>
                     </tr>
                 </tbody>
             </table>
+            <h4>Page <span data-bind="text: currpage()+1"></span></h4>
+            <nav aria-label="Page navigation" data-bind="if: pages().length > 1">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" data-bind="click: function() { $root.currpage(0); }"
+                            aria-label="Previous">
+                            <span aria-hidden="true" class="glyphicon glyphicon-step-backward"></span>
+                        </a>
+                    </li>
+                    <!-- ko foreach: {data: pages, as: 'page'} -->
+                    <li><a href="#" data-bind="text: $data+1, click: function() { $root.currpage($data) }"></a></li>
+                    <!-- /ko -->
+                    <li>
+                        <a href="#" data-bind="click: function() { $root.currpage(pages()[pages().length-1]); }"
+                            aria-label="Next">
+                            <span aria-hidden="true" class="glyphicon glyphicon-step-forward"></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
             <!-- ko foreach: filteredArticles -->
                 <div class="modal fade" data-bind='attr: {"id": $index()}' role="dialog">
                     <div class="modal-dialog" role="document">

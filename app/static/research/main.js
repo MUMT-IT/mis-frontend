@@ -2,20 +2,45 @@
 
 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May',
                 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var articlePerPage = 20;
 var viewModel = function() {
     var self = this;
+    self.loading = ko.observable(true);
     self.articles = ko.observableArray([]);
     self.filteredArticles = ko.observableArray([]);
-    self.reverseSortDate = ko.observable(false);
+    self.currpage = ko.observable(0);
+    self.paginated = ko.computed(function() {
+        var start, end;
+        start = (self.currpage() * articlePerPage);
+        end = ((self.currpage() + 1) * articlePerPage);
+        return self.filteredArticles().slice(start, end);
+    });
+    self.pages = ko.computed(function() {
+        var p = [];
+        var numPages = self.filteredArticles().length / articlePerPage;
+        var t = 0;
+        for(var i=0; i<=numPages; i++) {
+            p.push(i);
+            t = t + i * self.articlePerPage;
+        }
+        if(t <=self.articles.length) {
+            p.push(i+1);
+        }
+        return p;
+    });
+    self.pubYear = ko.observable('2017');
+    self.reverseSortDate = ko.observable(true);
     self.reverseSortTitle = ko.observable(false);
     self.reverseSortJournal = ko.observable(false);
     self.reverseSortCitation = ko.observable(false);
     self.query = ko.observable('');
     self.search = function (query) {
-        self.filteredArticles([]);
         if(query === '') {
             self.filteredArticles(self.articles());
+            self.currpage(0);
+            console.log(pages());
         } else {
+            self.filteredArticles([]);
             $.each(self.articles(), function(idx, ab) {
                 if(ab.title.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
                     ab.journal.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
@@ -23,41 +48,49 @@ var viewModel = function() {
                     self.filteredArticles.push(ab);
                 }
             });
+            self.currpage(0);
         }
     };
-};
-var vm = new viewModel();
-$.getJSON("http://localhost:5050/api/abstracts/2017", function(data) {
-    $.each(data.data, function(idx, d) {
-        var auths = [];
-        var date = new Date(d.cover_date);
-        date = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
-        var authorList = [];
-        $.each(d.authors, function(_, auth) {
-            authorList.push(auth.name);
-        })
-        var abs = {
-            title: d.title,
-            journal: d.journal,
-            coverDate: new Date(d.cover_date),
-            authors: d.authors,
-            authorList: authorList.join(', '),
-            coverDateString: date,
-            citedByCount: d.citedby_count,
-            text: d.abstract,
-        };
-        vm.articles.push(abs);
+    self.url = ko.computed(function() {
+        return "http://localhost:5050/api/abstracts/list";
     });
-    vm.filteredArticles(vm.articles());
-});
-ko.applyBindings(vm);
-vm.query.subscribe(vm.search);
+    self.loadAbstracts = function() {
+        $.getJSON(self.url(), function(data) {
+            $.each(data.data, function(idx, d) {
+                var auths = [];
+                var date = new Date(d.cover_date);
+                date = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+                var authorList = [];
+                $.each(d.authors, function(_, auth) {
+                    authorList.push(auth.name);
+                })
+                var abs = {
+                    title: d.title,
+                    journal: d.journal,
+                    coverDate: new Date(d.cover_date),
+                    authors: d.authors,
+                    authorList: authorList.join(', '),
+                    coverDateString: date,
+                    citedByCount: d.citedby_count,
+                    text: d.abstract,
+                };
+                self.articles.push(abs);
+            });
+            self.articles.sort(function(a, b) {
+                return a.coverDate < b.coverDate ? 1 : -1;
+            });
+            self.filteredArticles(self.articles());
+            self.loading(false);
+        });
+    }
+};
+
 function sortArticlesByDate() {
     vm.filteredArticles.sort(function(a,b) {
         if(vm.reverseSortDate()===false) {
-            return a.coverDate < b.coverDate;
+            return a.coverDate < b.coverDate ? 1 : -1;
         } else {
-            return a.coverDate > b.coverDate;
+            return a.coverDate > b.coverDate ? 1 : -1;
         }
     });
     vm.reverseSortDate(!vm.reverseSortDate()); // toggle sort order
@@ -66,9 +99,9 @@ function sortArticlesByDate() {
 function sortArticlesByTitle() {
     vm.filteredArticles.sort(function(a,b) {
         if(vm.reverseSortTitle()===false) {
-            return a.title < b.title;
+            return a.title < b.title ? 1 : -1;
         } else {
-            return a.title > b.title;
+            return a.title > b.title ? 1 : -1;
         }
     });
     vm.reverseSortTitle(!vm.reverseSortTitle()); // toggle sort order
@@ -77,9 +110,9 @@ function sortArticlesByTitle() {
 function sortArticlesByJournal() {
     vm.filteredArticles.sort(function(a,b) {
         if(vm.reverseSortJournal()===false) {
-            return a.journal < b.journal;
+            return a.journal < b.journal ? 1 : -1;
         } else {
-            return a.journal > b.journal;
+            return a.journal > b.journal ? 1 : -1;
         }
     });
     vm.reverseSortJournal(!vm.reverseSortJournal()); // toggle sort order
@@ -88,15 +121,15 @@ function sortArticlesByJournal() {
 function sortArticlesByCitation() {
     vm.filteredArticles.sort(function(a,b) {
         if(vm.reverseSortCitation()===false) {
-            return a.citedByCount < b.citedByCount;
+            return a.citedByCount < b.citedByCount ? 1 : -1;
         } else {
-            return a.citedByCount > b.citedByCount;
+            return a.citedByCount > b.citedByCount ? 1 : -1;
         }
     });
     vm.reverseSortCitation(!vm.reverseSortCitation()); // toggle sort order
 };
 
-$.getJSON("http://localhost:5050/api/abstracts/", function(data) {
+$.getJSON("http://localhost:5050/api/abstracts/numbers", function(data) {
     var articles_chart_labels = [];
     var articles_chart_data = [];
     var citations_chart_data = [];
@@ -193,3 +226,8 @@ $.getJSON("http://localhost:5050/api/abstracts/", function(data) {
             }
     });
 });
+
+var vm = new viewModel();
+vm.loadAbstracts();
+ko.applyBindings(vm);
+vm.query.subscribe(vm.search);
