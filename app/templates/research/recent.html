@@ -32,40 +32,19 @@
             </div>
             <h4 data-bind="if: query()!==''">Found <span data-bind="text: filteredArticles().length"></span></h4>
             <h3 data-bind="if: loading">Preparing the article list...</h3>
-            <h4>Page <span data-bind="text: currpage()+1"></span></h4>
             <ul data-bind="foreach: {data: paginated, as: 'article'}">
                 <li>
-                    <strong><span data-bind="text: article.title"></span></strong>
+                    <span data-bind="text: article.title"></span>
                     <a href="#" role="button" data-toggle="modal"
                         data-bind='attr: {"data-target": "#" + $index()}'><span class="glyphicon glyphicon-list-alt"></span></a> 
                      <span data-bind="text: 'Cited ' + article.citedByCount" class="badge"></span>
-                    <span data-bind="text: article.journal"></span>
+                    <strong><span data-bind="text: article.journal"></span></strong>
                     <span data-bind="text: article.coverDateString"></span>
                     <small><span data-bind="foreach: article.authors">
-                        <a href="#" data-bind="text: name"></a>,
+                        <span data-bind="text: name"></span>,
                     </span></small>
                 </li>
             </ul>
-            <h4>Page <span data-bind="text: currpage()+1"></span></h4>
-            <nav aria-label="Page navigation" data-bind="if: pages().length > 1">
-                <ul class="pagination">
-                    <li>
-                        <a href="#" data-bind="click: function() { $root.currpage(0); }"
-                            aria-label="Previous">
-                            <span aria-hidden="true" class="glyphicon glyphicon-step-backward"></span>
-                        </a>
-                    </li>
-                    <!-- ko foreach: {data: pages, as: 'page'} -->
-                    <li><a href="#" data-bind="text: $data+1, click: function() { $root.currpage($data) }"></a></li>
-                    <!-- /ko -->
-                    <li>
-                        <a href="#" data-bind="click: function() { $root.currpage(pages()[pages().length-1]); }"
-                            aria-label="Next">
-                            <span aria-hidden="true" class="glyphicon glyphicon-step-forward"></span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
             <!-- ko foreach: filteredArticles -->
                 <div class="modal fade" data-bind='attr: {"id": $index()}' role="dialog">
                     <div class="modal-dialog" role="document">
