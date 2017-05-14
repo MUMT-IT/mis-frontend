@@ -12,4 +12,8 @@ def create_db():
 
     from app.research import research_blueprint
     app.register_blueprint(research_blueprint, url_prefix='/research')
+
+    from app.employee import employee_blueprint
+    app.register_blueprint(employee_blueprint, url_prefix='/employee')
+
     return app

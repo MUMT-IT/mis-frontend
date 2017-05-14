@@ -1,0 +1,83 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}MIS-Research{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='vendors/jquery.min.js') }}"
+        type="text/javascript">
+</script>
+<script src="{{ url_for('static', filename='vendors/knockout.js') }}"
+        type="text/javascript">
+</script>
+<script src="{{ url_for('static', filename='vendors/Chart.min.js') }}"
+        type="text/javascript">
+</script>
+<script type="text/javascript"
+        src="{{ url_for('static', filename='employee/department.js')}}">
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% block page_content %}
+        <div class="row">
+            <h1><span data-bind="text: departmentName"></span></h1>
+            <div class="panel panel-default">
+                <div class="panel-heading"><h2 class="panel-title">Head</h2></div>
+                <div class="panel-body">
+                    <!-- ko foreach: {data: departmentHead, as: 'emp'} -->
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-1">
+                            <img data-bind="attr: {src: imgUrl}" class="img-rounded" width="110" height="160"><br/>
+                        </div>
+                        <div class="col-md-4">
+                            <address>
+                                <strong>
+                                    <span data-bind="text: emp.name" class="text-center"></span><br/>
+                                </strong>
+                                Office: <span data-bind="text: emp.officeRoom"></span><br>
+                                Campus: <span data-bind="text: emp.campus"></span><br>
+                                Phone: <span data-bind="text: emp.cellphone"></span><br>
+                                Email: <a data-bind="attr: {href: 'mailto:'+emp.email}, text: emp.email"
+                                          class="text-center"></a><br>
+                                Research: <a data-bind="attr: {href: '#'}, text: 'profile'"
+                                             class="text-center"></a>
+                            </address>
+                        </div>
+                    </div>
+                    <!-- /ko -->
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">Members</h2>
+                </div>
+                <div class="panel-body">
+                    <!-- ko foreach: {data: employees, as: 'emp'} -->
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-1">
+                            <img data-bind="attr: {src: imgUrl}" class="img-rounded" width="110" height="160"><br/>
+                        </div>
+                        <div class="col-md-4">
+                            <address>
+                                <strong>
+                                    <span data-bind="text: emp.name" class="text-center"></span><br/>
+                                </strong>
+                                Office: <span data-bind="text: emp.officeRoom"></span><br>
+                                Campus: <span data-bind="text: emp.campus"></span><br>
+                                Phone: <span data-bind="text: emp.cellphone"></span><br>
+                                Email: <a data-bind="attr: {href: 'mailto:'+emp.email}, text: emp.email"
+                                          class="text-center"></a><br>
+                                Research: <a data-bind="attr: {href: '#'}, text: 'profile'"
+                                          class="text-center"></a>
+                            </address>
+                        </div>
+                    </div>
+                    <br/>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+</div>
+{% endblock %}
