@@ -11,3 +11,8 @@ def list_staff(department_slug):
 def get_profile(employee_id):
     return render_template('employee/research-profile.html',
                            employee_id=employee_id)
+
+
+@employee_bp.route('/research/')
+def add_research_article():
+    return render_template('employee/research.html')

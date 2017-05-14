@@ -41,9 +41,9 @@
                         <ul data-bind="foreach: {data: papers, as: 'paper'}">
                             <li>
                                 <h4>
-                                    <span data-bind="text: paper.title"></span>
+                                    <span data-bind="text: paper.title"></span>.
                                     <small>
-                                        <span data-bind="text: paper.publication_name"></span>
+                                        <span data-bind="text: paper.publication_name"></span>.
                                         <span data-bind="text: paper.authors"></span>;
                                         <span data-bind="text: paper.cover_date"></span>;
                                         Cited: <span data-bind="text: paper.citedby_count"></span>
@@ -51,7 +51,22 @@
                                 </h4>
                             </li>
                         </ul>
-                        <p>Total other articles: <span data-bind="text: papers().length"></span><br>
+                        <p>Total other articles: <span data-bind="text: otherPapers().length"></span><br>
+                        <ul data-bind="foreach: {data: otherPapers, as: 'paper'}">
+                            <li>
+                                <h4>
+                                    <span data-bind="text: paper.title"></span>.
+                                    <small>
+                                        <span data-bind="text: paper.publisher"></span>.
+                                        <span data-bind="text: paper.authors"></span>;
+                                        <span data-bind="text: paper.cover_date"></span>;
+                                        <span data-bind="text: paper.status"></span>
+                                    </small>
+                                </h4>
+                            </li>
+                        </ul>
+                        <a class="btn btn-default" role="button"
+                            href="{{ url_for('employee.add_research_article') }}">Add Article</a>
                     </div>
                 </div>
             </div>

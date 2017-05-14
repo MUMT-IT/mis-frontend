@@ -1,6 +1,7 @@
 var viewModel = function() {
     var self = this;
     self.papers = ko.observableArray([]);
+    self.otherPapers = ko.observableArray([]);
     self.publishedYears = ko.observableArray([]);
     self.loadData = function () {
         $.getJSON("http://localhost:6600/api/employees/" + employee_id,
@@ -37,6 +38,19 @@ var viewModel = function() {
                         $("#department_name").text(data[0].name_en);
                     }
                 );
+                $.getJSON("http://localhost:6600/api/employees/research/" + self.employee["_id"]["$oid"],
+                    function(data) {
+                    $.each(data, function(ix, ar) {
+                        var article = {
+                            "title": ar.title,
+                            "cover_date": new Date(ar.cover_date["$date"]).getFullYear(),
+                            "publisher": ar.publisher,
+                            "status": ar.status,
+                            "authors": ar.author_list,
+                        }
+                        self.otherPapers.push(article);
+                    });
+                });
             }
         );
     }
