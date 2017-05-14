@@ -1,10 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "bootstrap/base.html" %}
+{% block title %}MIS-Research{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='vendors/jquery.min.js') }}"
+            type="text/javascript">
+    </script>
+    <script src="{{ url_for('static', filename='vendors/knockout.js') }}"
+            type="text/javascript">
+    </script>
+    <script src="{{ url_for('static', filename='vendors/Chart.min.js') }}"
+            type="text/javascript">
+    </script>
+    <script>
+        var employee_id = {{ employee_id | tojson }};
+    </script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='employee/profile.js')}}">
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% block page_content %}
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Profile</h2>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img id="profileImg" class="img-rounded" src="#" width="110" height="160">
+                    </div>
+                    <div class="col-md-8">
+                        <h3><span id="employee_name"></span></h3>
+                        <h4><span id="department_name"></span></h4>
+                        <h5><a id="employee_email"></a></h5>
+                        <p>Total Scopus-indexed articles: <span data-bind="text: papers().length"></span><br>
+                        <span data-bind="text: 'From the year ' + Math.min.apply(null, publishedYears()) + ' to ' + Math.max.apply(null, publishedYears())"></span></p>
+                        <ul data-bind="foreach: {data: papers, as: 'paper'}">
+                            <li>
+                                <h4>
+                                    <span data-bind="text: paper.title"></span>
+                                    <small>
+                                        <span data-bind="text: paper.publication_name"></span>
+                                        <span data-bind="text: paper.authors"></span>;
+                                        <span data-bind="text: paper.cover_date"></span>;
+                                        Cited: <span data-bind="text: paper.citedby_count"></span>
+                                    </small>
+                                </h4>
+                            </li>
+                        </ul>
+                        <p>Total other articles: <span data-bind="text: papers().length"></span><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</div>
+{% endblock %}

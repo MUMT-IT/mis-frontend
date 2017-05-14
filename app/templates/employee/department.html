@@ -39,7 +39,7 @@
                                 Phone: <span data-bind="text: emp.cellphone"></span><br>
                                 Email: <a data-bind="attr: {href: 'mailto:'+emp.email}, text: emp.email"
                                           class="text-center"></a><br>
-                                Research: <a data-bind="attr: {href: '#'}, text: 'profile'"
+                                Research: <a data-bind="attr: {href: emp.profileUrl}, text: 'profile'"
                                              class="text-center"></a>
                             </address>
                         </div>
@@ -68,8 +68,8 @@
                                 Phone: <span data-bind="text: emp.cellphone"></span><br>
                                 Email: <a data-bind="attr: {href: 'mailto:'+emp.email}, text: emp.email"
                                           class="text-center"></a><br>
-                                Research: <a data-bind="attr: {href: '#'}, text: 'profile'"
-                                          class="text-center"></a>
+                                Research: <a data-bind="attr: {href: emp.profileUrl}, text: 'profile'"
+                                             class="text-center"></a>
                             </address>
                         </div>
                     </div>

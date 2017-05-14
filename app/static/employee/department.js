@@ -16,6 +16,7 @@ viewModel = function () {
                     "email": e.email,
                     "id": e["_id"]["$oid"],
                     "imgUrl": "http://localhost:6600/api/employees/image/" + e["_id"]["$oid"],
+                    "profileUrl": "http://localhost:5000/employee/profile/" + e["_id"]["$oid"],
                 };
                 if (e["contact"]) {
                     var contact = e["contact"];
