@@ -1,0 +1,28 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}MIS-Research{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='vendors/jquery.min.js') }}"
+            type="text/javascript">
+    </script>
+    <script src="{{ url_for('static', filename='vendors/knockout.js') }}"
+            type="text/javascript">
+    </script>
+    <script src="{{ url_for('static', filename='vendors/Chart.min.js') }}"
+            type="text/javascript">
+    </script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='education/main.js')}}">
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% block page_content %}
+            <div class="row">
+                <h1>Education : Well-rounded Scholar</h1>
+                <canvas id="wrs-chart"></canvas>
+            </div>
+        {% endblock %}
+    </div>
+{% endblock %}
