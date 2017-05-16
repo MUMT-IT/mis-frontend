@@ -1,100 +1,142 @@
 {% extends "base.html" %}
-{% block title %}MIS-Research{% endblock %}
 {% block scripts %}
-{{ super() }}
-<script type="text/javascript"
-    src="{{ url_for('static', filename='research/main.js')}}">
-</script>
+    {{ super() }}
+    <script type="text/javascript"
+        src="{{ url_for('static', filename='research/main.js')}}">
+    </script>
 {% endblock %}
-
-
 {% block page_content %}
-<div class="row">
-    <h1 class="text-muted">Research Page</h1>
-</div>
-<div class="row">
-    <canvas id="articles_per_year"></canvas>
-</div>
-<div class="row">
-    <canvas id="citations_per_year"></canvas>
-</div>
-<div class="row">
-    <h3>Recent Research Articles 2010-present</h3>
-    <div class="form-group col-xm-4">
-        <div class="input-group">
-            <div class="input-group-addon">
-                <span class="glyphicon glyphicon-search"></span>
-            </div>
-            <input id="articleSearch" type="search"
-                data-bind="textInput: query" class="form-control"
-                placeholder="Search for title, journal and authors..."/>
-        </div>
-    </div>
-    <div>
-        <button class="btn btn-default" role="button"
-            data-bind="click: sortArticlesByDate">Sort by Date
-            <span data-bind="visible: reverseSortDate" class="glyphicon glyphicon-triangle-bottom"></span>
-            <span data-bind="visible: !reverseSortDate()" class="glyphicon glyphicon-triangle-top"></span>
-        </button>
-        <button class="btn btn-default" role="button"
-            data-bind="click: sortArticlesByTitle">Sort by Title
-            <span data-bind="visible: reverseSortTitle" class="glyphicon glyphicon-triangle-bottom"></span>
-            <span data-bind="visible: !reverseSortTitle()" class="glyphicon glyphicon-triangle-top"></span>
-        </button>
-        <button class="btn btn-default" role="button"
-            data-bind="click: sortArticlesByJournal">Sort by Journal
-            <span data-bind="visible: reverseSortJournal" class="glyphicon glyphicon-triangle-bottom"></span>
-            <span data-bind="visible: !reverseSortJournal()" class="glyphicon glyphicon-triangle-top"></span>
-        </button>
-        <button class="btn btn-default" role="button"
-            data-bind="click: sortArticlesByCitation">Sort by Citation Count
-            <span data-bind="visible: reverseSortCitation" class="glyphicon glyphicon-triangle-bottom"></span>
-            <span data-bind="visible: !reverseSortCitation()" class="glyphicon glyphicon-triangle-top"></span>
-        </button>
-    </div>
-</div>
-<div class="row">
-    <table class="table">
-        <thead>
-            <th>Title</th>
-            <th>Publisher</th>
-            <th>Date</th>
-            <th>Authors</th>
-        </thead>
-        <tbody data-bind="foreach: {data: filteredArticles, as: 'article'}">
-            <tr>
-                <td>
-                    <span data-bind="text: article.title"></span> 
-                    <a href="#" role="button" data-toggle="modal"
-                        data-bind='attr: {"data-target": "#" + $index()}'>View abstract..</a> 
-                    <strong>Cited</strong> <span data-bind="text: article.citedByCount" class="badge"></span>
-                </td>
-                <td data-bind="text: article.journal"></td>
-                <td data-bind="text: article.coverDateString"></td>
-                <td data-bind="foreach: article.authors">
-                    <a href="#" data-bind="text: name"></a>,
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="wrapper">
+        <div class="main main-raised">
+            <div class="section section-basic">
+                <div class="container">
+                    <div class="row">
+                        <h1>รายงานสรุปผลงานวิจัย (Research Summary Report)</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="content">
+                                    <canvas id="articles_per_year"></canvas>
+                                </div>
+                            </div> <!-- card -->
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="content">
+                                    <canvas id="citations_per_year"></canvas>
+                                </div>
+                            </div> <!-- card -->
+                        </div>
+                    </div> <!-- row: graphs -->
+                    <div class="row">
+                        <h3>ผลงานวิจัยตั้งแต่ปี 2010 ถึงปัจจุบัน</h3>
+                        <div class="input-group col-md-5">
+                            <input id="articleSearch" type="text" class="form-control"
+                                   data-bind="textInput: query"
+                                   placeholder="ค้นหาจากชื่อเรื่อง ชื่อวารสาร และผู้วิจัย.."/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 data-bind="if: query()!==''">Found <span data-bind="text: filteredArticles().length"></span></h4>
+                            <button class="btn waves-effect waves-light" role="button"
+                                    data-bind="click: sortArticlesByTitle">Sort by Title
+                            </button>
+                            <button class="btn waves-effect waves-light" role="button"
+                                    data-bind="click: sortArticlesByJournal">Sort by Journal
+                            </button>
+                            <button class="btn waves-effect waves-light" role="button"
+                                    data-bind="click: sortArticlesByDate">Sort by Date
+                            </button>
+                            <button class="btn waves-effect waves-light" role="button"
+                                    data-bind="click: sortArticlesByCitation">Sort by Citation Count
+                            </button>
+                        </div>
+                    </div> <!-- row: buttons -->
+                    <div class="row">
+                        <h3 data-bind="if: loading">Preparing the article list...</h3>
+                        <h4>หน้าที่ <span data-bind="text: currpage()+1"></span></h4>
+                        <ul class="pagination pagination-primary" data-bind="if: pages().length > 1">
+                            <li class="waves-effect">
+                                <a href="#" data-bind="click: function() { $root.currpage(0); }">
+                                    <i class="material-icons">first_page</i>
+                                </a>
+                            </li>
+                            <!-- ko foreach: {data: pages, as: 'page'} -->
+                            <li class="waves-effect"><a href="#" data-bind="text: $data+1, click: function() { $root.currpage($data) }"></a></li>
+                            <!-- /ko -->
+                            <li>
+                                <a href="#" data-bind=", click: function() { $root.currpage(pages()[pages().length-1]); }">
+                                    <i class="material-icons">last_page</i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div> <!-- row: pagination buttons -->
+                    <div class="row">
+                        <table class="table">
+                            <thead>
+                            <th>Title</th>
+                            <th>Publisher</th>
+                            <th>Date</th>
+                            <th>Authors</th>
+                            </thead>
+                            <tbody data-bind="foreach: {data: paginated, as: 'article'}">
+                            <tr>
+                                <td>
+                                    <span data-bind="text: article.title"></span>
+                                    <a href="#" role="button" data-toggle="modal"
+                                       data-bind='attr: {"data-target": "#" + $index()}'>View abstract</a>
+                                    <strong>Cited</strong> <span class="badge" data-bind="text: article.citedByCount"></span>
+                                </td>
+                                <td data-bind="text: article.journal"></td>
+                                <td data-bind="text: article.coverDateString"></td>
+                                <td data-bind="foreach: article.authors">
+                                    <span data-bind="text: name"></span>,
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div> <!-- row: table: articles -->
+                    <div class="row">
+                        <h4>หน้าที่ <span data-bind="text: currpage()+1"></span></h4>
+                        <ul class="pagination pagination-primary" data-bind="if: pages().length > 1">
+                            <li class="waves-effect">
+                                <a href="#" data-bind="click: function() { $root.currpage(0); }">
+                                    <i class="material-icons">first_page</i>
+                                </a>
+                            </li>
+                            <!-- ko foreach: {data: pages, as: 'page'} -->
+                            <li class="waves-effect"><a href="#" data-bind="text: $data+1, click: function() { $root.currpage($data) }"></a></li>
+                            <!-- /ko -->
+                            <li>
+                                <a href="#" data-bind=", click: function() { $root.currpage(pages()[pages().length-1]); }">
+                                    <i class="material-icons">last_page</i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div> <!-- row: pagination buttons -->
+                </div> <!-- container -->
+            </div> <!-- section -->
+        </div> <!-- main -->
+    </div> <!-- wrapper -->
     <!-- ko foreach: filteredArticles -->
-        <div class="modal fade" data-bind='attr: {"id": $index()}' role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"
+    <div class="modal fade" data-bind='attr: {"id": $index()}' role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
                             aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h3 data-bind="text: $data.title"><h3>
-                        <h3><small><span data-bind="text: $data.journal"></span></small></h3>
-                        <h5 data-bind="text: $data.authorList"></h5>
-                        <h3>Abstract</h3>
-                    </div>
-                    <div class="modal-body">
-                        <p data-bind="text: $data.text"></p>
-                    </div>
+                    <h3 data-bind="text: $data.title" class="modal-title"></h3>
+                    <h3><small><span data-bind="text: $data.journal"></span></small></h3>
+                    <h5 data-bind="text: $data.authorList"></h5>
                 </div>
-            </div>
-        </div>
+                <div class="modal-body">
+                    <h3>Abstract</h3>
+                    <p data-bind="text: $data.text"></p>
+                </div>
+            </div> <!-- modal-content -->
+        </div> <!-- modal-dialog -->
+    </div> <!-- modal -->
     <!-- /ko -->
-</div>
 {% endblock %}

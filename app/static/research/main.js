@@ -38,7 +38,6 @@ var viewModel = function() {
         if(query === '') {
             self.filteredArticles(self.articles());
             self.currpage(0);
-            console.log(pages());
         } else {
             self.filteredArticles([]);
             $.each(self.articles(), function(idx, ab) {
@@ -52,7 +51,7 @@ var viewModel = function() {
         }
     };
     self.url = ko.computed(function() {
-        return "http://localhost:5050/api/abstracts/list";
+        return "http://localhost:8800/api/abstracts/list";
     });
     self.loadAbstracts = function() {
         $.getJSON(self.url(), function(data) {
@@ -129,7 +128,7 @@ function sortArticlesByCitation() {
     vm.reverseSortCitation(!vm.reverseSortCitation()); // toggle sort order
 };
 
-$.getJSON("http://localhost:5050/api/abstracts/numbers", function(data) {
+$.getJSON("http://localhost:8800/api/abstracts/numbers", function(data) {
     var articles_chart_labels = [];
     var articles_chart_data = [];
     var citations_chart_data = [];
