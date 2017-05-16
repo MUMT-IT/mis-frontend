@@ -1,8 +1,12 @@
-{% extends "bootstrap/base.html" %}
-{% block title %}MIS-Health Services{% endblock %}
-{% block scripts %}
-    {{ super() }}
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='vendors/materialize/css/materialize.min.css') }}">
     <script src="{{ url_for('static', filename='vendors/jquery.min.js') }}"
+            type="text/javascript">
+    </script>
+    <script src="{{ url_for('static', filename='vendors/materialize/js/materialize.min.js') }}"
             type="text/javascript">
     </script>
     <script src="{{ url_for('static', filename='vendors/knockout.js') }}"
@@ -11,20 +15,26 @@
     <script src="{{ url_for('static', filename='vendors/Chart.min.js') }}"
             type="text/javascript">
     </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Health Services</h2>
+        <h3>สถิติลูกค้างานบริการสุขภาพชุมชน</h3>
+        <div class="row">
+            <div class="col m6">
+                <div class="card-panel">
+                    <canvas id="customer-chart"></canvas>
+                </div>
+            </div>
+            <div class="col m6">
+                <div class="card-panel">
+                    <canvas id="companies-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript"
             src="{{ url_for('static', filename='health_services/main.js')}}">
     </script>
-{% endblock %}
-
-{% block content %}
-<div class="container">
-    {% block page_content %}
-        <h2>Health Services</h2>
-        <div class="row">
-            <div class="col-md-8">
-                <canvas id="customer-chart"></canvas>
-            </div>
-        </div>
-    {% endblock %}
-</div>
-{% endblock %}
+</body>
+</html>
