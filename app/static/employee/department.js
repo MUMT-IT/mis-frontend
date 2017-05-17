@@ -3,21 +3,34 @@ var viewModel;
 
 viewModel = function () {
     var self = this;
+    self.academic_titles_th = {
+        'Assistant Professor': 'ผู้ช่วยศาสตราจารย์',
+        'Associate Professor': 'รองศาสตราจารย์',
+        'Professor': 'ศาสตราจารย์',
+        'Lecturer': 'อาจารย์'
+    };
     self.departmentName = ko.observable();
     self.departmentHead = ko.observableArray([]);
     self.employees = ko.observableArray([]);
     self.loadData = function () {
-        var dept_oid;
-        $.getJSON("http://localhost:6600/api/employees/",
-            {"department_slug": "community-mt"}, function(data) {
+        $.getJSON("http://localhost:5570/api/employees/",
+            {"department_slug": dept_slug}, function(data) {
             $.each(data, function(idx, e) {
                 var emp = {
-                    "name": e.first_name_en + " " + e.last_name_en,
+                    "name_en": e.first_name_en + " " + e.last_name_en,
+                    "name_th": e.first_name_th + " " + e.last_name_th,
+                    "degree": e.highest_degree,
+                    "position": e.academic_title,
                     "email": e.email,
                     "id": e["_id"]["$oid"],
-                    "imgUrl": "http://localhost:6600/api/employees/image/" + e["_id"]["$oid"],
-                    "profileUrl": "http://localhost:5000/employee/profile/" + e["_id"]["$oid"],
+                    "imgUrl": "http://localhost:5570/api/employees/image/" + e["_id"]["$oid"],
+                    "profileUrl": "http://localhost:5500/employee/profile/" + e["_id"]["$oid"],
                 };
+                console.log(emp["degree"])
+                emp["degree_en"] = emp["degree"] == 3 ? "Dr." : "";
+                emp["degree_th"] = emp["degree"] == 3 ? "ดร." : "";
+                emp["position_en"] = emp["position"];
+                emp["position_th"] = self.academic_titles_th[emp["position"]];
                 if (e["contact"]) {
                     var contact = e["contact"];
                     emp["campus"] = contact["building_campus_en"] || "n/a";
@@ -28,16 +41,16 @@ viewModel = function () {
                     emp["campus"] = "n/a";
                     emp["cellphone"] = "n/a";
                 }
-                dept_oid = e.department["$oid"];
                 self.employees.push(emp);
             });
-            $.getJSON("http://localhost:6600/api/affiliations/" + dept_oid,
+            $.getJSON("http://localhost:5570/api/affiliations/slug/" + dept_slug,
                 function(data) {
                     var d = data[0];  // a single department in an array
                     var dept = {
                         'headId': d["head"]["$oid"],
                         "nameEN": d["name_en"]
                     };
+                    console.log(dept)
                     self.departmentName(dept["nameEN"]);
                     var deptMembersOnly = [];
                     $.each(self.employees(), function(idx, e) {
