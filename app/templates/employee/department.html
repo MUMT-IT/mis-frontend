@@ -11,6 +11,9 @@
 <script src="{{ url_for('static', filename='vendors/Chart.min.js') }}"
         type="text/javascript">
 </script>
+<script type="text/javascript">
+    var dept_slug = {{  dept_slug | tojson }};
+</script>
 <script type="text/javascript"
         src="{{ url_for('static', filename='employee/department.js')}}">
 </script>
@@ -32,7 +35,10 @@
                         <div class="col-md-4">
                             <address>
                                 <strong>
-                                    <span data-bind="text: emp.name" class="text-center"></span><br/>
+                                    <span data-bind="text: emp.position_th + ' ' + emp.degree_th + emp.name_th" class="text-center"></span><br/>
+                                </strong>
+                                <strong>
+                                    <span data-bind="text: emp.position_en + ' ' + emp.degree_en + ' ' + emp.name_en" class="text-center"></span><br/>
                                 </strong>
                                 Office: <span data-bind="text: emp.officeRoom"></span><br>
                                 Campus: <span data-bind="text: emp.campus"></span><br>
@@ -61,7 +67,10 @@
                         <div class="col-md-4">
                             <address>
                                 <strong>
-                                    <span data-bind="text: emp.name" class="text-center"></span><br/>
+                                    <span data-bind="text: emp.position_th + ' ' + emp.degree_th + emp.name_th" class="text-center"></span><br/>
+                                </strong>
+                                <strong>
+                                    <span data-bind="text: emp.position_en + ' ' + emp.degree_en + ' ' + emp.name_en" class="text-center"></span><br/>
                                 </strong>
                                 Office: <span data-bind="text: emp.officeRoom"></span><br>
                                 Campus: <span data-bind="text: emp.campus"></span><br>
