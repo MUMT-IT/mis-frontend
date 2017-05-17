@@ -36,9 +36,8 @@
                         <h3><span id="employee_name"></span></h3>
                         <h4><span id="department_name"></span></h4>
                         <h5><a id="employee_email"></a></h5>
-                        <p>Total Scopus-indexed articles: <span data-bind="text: papers().length"></span><br>
-                        <span data-bind="text: 'From the year ' + Math.min.apply(null, publishedYears()) + ' to ' + Math.max.apply(null, publishedYears())"></span></p>
-                        <ul data-bind="foreach: {data: papers, as: 'paper'}">
+                        <p>Total Scopus-indexed articles: <span data-bind="text: papers().length"></span> (2010-2017)<br>
+                        <ul data-bind="foreach: {data: papers, as: 'paper'} , visible papers().length > 0">
                             <li>
                                 <h4>
                                     <span data-bind="text: paper.title"></span>.
@@ -52,7 +51,7 @@
                             </li>
                         </ul>
                         <p>Total other articles: <span data-bind="text: otherPapers().length"></span><br>
-                        <ul data-bind="foreach: {data: otherPapers, as: 'paper'}">
+                        <ul data-bind="foreach: {data: otherPapers, as: 'paper'}, visible: otherPapers().length > 0">
                             <li>
                                 <h4>
                                     <span data-bind="text: paper.title"></span>.
