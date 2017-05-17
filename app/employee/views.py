@@ -4,7 +4,7 @@ from . import employee_blueprint as employee_bp
 
 @employee_bp.route('/department/<department_slug>')
 def list_staff(department_slug):
-    return render_template('employee/department.html')
+    return render_template('employee/department.html', dept_slug=department_slug)
 
 
 @employee_bp.route('/profile/<employee_id>')
