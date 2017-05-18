@@ -28,53 +28,84 @@ var viewModel = function() {
             $('#data-mining-total-articles').text(info.totalArticles);
             var productivity = info.totalArticles / info.totalPeople;
             $('#data-mining-productivity').text(productivity.toFixed(1));
+            var $listObj = $('#data-mining-articles-list');
+            makeArticleList($listObj, info.deptArticles);
         })
         $.when(researchInno).done(function(data, statusText, jqXHR) {
             var info = selectDeptArticles(articles, data, ctxResearch);
-            $('#research-total-articles').text(info.totalArticles.length);
+            $('#research-total-articles').text(info.totalArticles);
             var productivity = info.totalArticles / info.totalPeople;
             $('#research-productivity').text(productivity.toFixed(1));
+            var $listObj = $('#research-articles-list');
+            makeArticleList($listObj, info.deptArticles);
         })
         $.when(microbio).done(function(data, statusText, jqXHR) {
             var info = selectDeptArticles(articles, data, ctxMicrobio);
-            $('#microbio-total-articles').text(info.totalArticles.length);
+            $('#microbio-total-articles').text(info.totalArticles);
             var productivity = info.totalArticles / info.totalPeople;
             $('#microbio-productivity').text(productivity.toFixed(1));
+            var $listObj = $('#microbio-articles-list');
+            makeArticleList($listObj, info.deptArticles);
         })
         $.when(micros).done(function(data, statusText, jqXHR) {
             var info = selectDeptArticles(articles, data, ctxMicros);
-            $('#micros-total-articles').text(info.totalArticles.length);
+            $('#micros-total-articles').text(info.totalArticles);
             var productivity = info.totalArticles / info.totalPeople;
             $('#micros-productivity').text(productivity.toFixed(1));
+            var $listObj = $('#micros-articles-list');
+            makeArticleList($listObj, info.deptArticles);
         })
         $.when(clinchem).done(function(data, statusText, jqXHR) {
             var info = selectDeptArticles(articles, data, ctxClinChem);
-            $('#clinchem-total-articles').text(info.totalArticles.length);
+            $('#clinchem-total-articles').text(info.totalArticles);
             var productivity = info.totalArticles / info.totalPeople;
             $('#clinchem-productivity').text(productivity.toFixed(1));
+            var $listObj = $('#clinchem-articles-list');
+            makeArticleList($listObj, info.deptArticles);
         })
         $.when(radiology).done(function(data, statusText, jqXHR) {
             var info = selectDeptArticles(articles, data, ctxRadiology);
-            $('#radiology-total-articles').text(info.totalArticles.length);
+            $('#radiology-total-articles').text(info.totalArticles);
             var productivity = info.totalArticles / info.totalPeople;
             $('#radiology-productivity').text(productivity.toFixed(1));
+            var $listObj = $('#radiology-articles-list');
+            makeArticleList($listObj, info.deptArticles);
         })
         $.when(commt).done(function(data, statusText, jqXHR) {
             var info = selectDeptArticles(articles, data, ctxComMt);
-            $('#commt-total-articles').text(info.totalArticles.length);
+            $('#commt-total-articles').text(info.totalArticles);
             var productivity = info.totalArticles / info.totalPeople;
             $('#commt-productivity').text(productivity.toFixed(1));
+            var $listObj = $('#commt-articles-list');
+            makeArticleList($listObj, info.deptArticles);
         })
         $.when(standval).done(function(data, statusText, jqXHR) {
             var info = selectDeptArticles(articles, data, ctxStandVal);
-            $('#standval-total-articles').text(info.totalArticles.length);
+            $('#standval-total-articles').text(info.totalArticles);
             var productivity = info.totalArticles / info.totalPeople;
             $('#standval-productivity').text(productivity.toFixed(1));
+            var $listObj = $('#standval-articles-list');
+            makeArticleList($listObj, info.deptArticles);
         })
         var cnt = countArticlesPerMonth(articles.data);
         plotArticleCount(ctxAll, cnt);
         $('#all-total-articles').text(articles.data.length);
     });
+}
+
+
+var makeArticleList = function($listObj, deptArticles) {
+    $.each(deptArticles, function(ix, article) {
+        var authors = [];
+        $.each(article.authors, function(idx, au) {
+            var name = au.last_name + " " + au.first_name[0];
+            authors.push(name);
+        })
+        var cover_date = new Date(article.cover_date).toDateString();
+        $listObj.append(
+            "<li><strong>" + article.title + "</strong>. " + authors.join(", ") + ". " + cover_date + "</li>"
+        )
+    })
 }
 
 var selectDeptArticles = function(articles, people, ctx) {
@@ -93,7 +124,7 @@ var selectDeptArticles = function(articles, people, ctx) {
     })
     var numArticles = countArticlesPerMonth(deptArticles);
     plotArticleCount(ctx, numArticles);
-    return {'totalArticles': deptArticles.length, 'totalPeople': people.length};
+    return {'totalArticles': deptArticles.length, 'totalPeople': people.length, deptArticles: deptArticles};
 }
 
 var countArticlesPerMonth = function(deptArticles) {
