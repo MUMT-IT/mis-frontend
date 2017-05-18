@@ -12,3 +12,7 @@ def main_embed():
 @research.route('/embed/recentpub')
 def recent_embed():
     return render_template('research/recent.html')
+
+@research.route('/department/all/')
+def show_department_all():
+    return render_template('research/department_all.html')

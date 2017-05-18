@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='research/department_all.js')}}">
+    </script>
+{% endblock %}
+{% block page_content %}
+<div class="wrapper">
+    <div class="main main-raised">
+        <div class="section section-basic">
+            <div class="container">
+                <div class="row">
+                    <h1>รายงานสรุปผลงานวิจัย (Research Summary Report)</h1>
+                </div>
+                <div class="row">
+                    <ul class="nav nav-pills" role="tablist">
+                        <li role="presentation"><a href="{{ url_for('research.main') }}" role="tab">Overall</a></li>
+                        <li role="presentation"><a href="#" role="tab">Benchmark</a></li>
+                        <li role="presentation" class="active"><a href="#" role="tab">Department</a></li>
+                    </ul>
+                    <br/>
+                </div>
+                <div class="row">
+                    <h3>All Departments and Centers</h3>
+                    <h4>Total <span id="all-total-articles"></span> articles.</h4>
+                    <canvas id="all-chart" height="30"></canvas>
+                </div>
+                <div class="row">
+                    <h3>Center for Data Mining and Biomedical Informatics</h3>
+                    <h4>Total <span id="data-mining-total-articles"></span> articles.</h4>
+                    <h4 class="text-danger">Current Productivity = <span id="data-mining-productivity"></span> article/researcher/year.</h4>
+                    <canvas id="datamining-chart" height="30"></canvas>
+                </div>
+                <div class="row">
+                    <h3>Center for Research and Innovation</h3>
+                    <h4>Total <span id="research-total-articles"></span> articles.</h4>
+                    <h4 class="text-danger">Current Productivity = <span id="research-productivity"></span> article/researcher/year.</h4>
+                    <canvas id="research-chart" height="30"></canvas>
+                </div>
+                <div class="row">
+                    <h3>Clinical Microbiology and Applied Technology</h3>
+                    <h4>Total <span id="microbio-total-articles"></span> articles.</h4>
+                    <h4 class="text-danger">Current Productivity = <span id="microbio-productivity"></span> article/researcher/year.</h4>
+                    <canvas id="microbio-chart" height="30"></canvas>
+                </div>
+                <div class="row">
+                    <h3>Clinical Microscopy</h3>
+                    <h4>Total <span id="micros-total-articles"></span> articles.</h4>
+                    <h4 class="text-danger">Current Productivity = <span id="micros-productivity"></span> article/researcher/year.</h4>
+                    <canvas id="micros-chart" height="30"></canvas>
+                </div>
+                <div class="row">
+                    <h3>Clinical Chemistry</h3>
+                    <h4>Total <span id="clinchem-total-articles"></span> articles.</h4>
+                    <h4 class="text-danger">Current Productivity = <span id="clinchem-productivity"></span> article/researcher/year.</h4>
+                    <canvas id="clinchem-chart" height="30"></canvas>
+                </div>
+                <div class="row">
+                    <h3>Radiological Technology</h3>
+                    <h4>Total <span id="radiology-total-articles"></span> articles.</h4>
+                    <h4 class="text-danger">Current Productivity = <span id="radiology-productivity"></span> article/researcher/year.</h4>
+                    <canvas id="radiology-chart" height="30"></canvas>
+                </div>
+                <div class="row">
+                    <h3>Community Medical Technology</h3>
+                    <h4>Total <span id="commt-total-articles"></span> articles.</h4>
+                    <h4 class="text-danger">Current Productivity = <span id="commt-productivity"></span> article/researcher/year.</h4>
+                    <canvas id="commt-chart" height="30"></canvas>
+                </div>
+                <div class="row">
+                    <h3>Center for Standardization and Product Validation</h3>
+                    <h4>Total <span id="standval-total-articles"></span> articles.</h4>
+                    <h4 class="text-danger">Current Productivity = <span id="standval-productivity"></span> article/researcher/year.</h4>
+                    <canvas id="standval-chart" height="30"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

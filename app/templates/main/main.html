@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}MIS-Main{% endblock %}
+{% block title %}<title>MIS Main</title>{% endblock %}
 {% block scripts %}
 {{ super() }}
 <script>
@@ -13,9 +13,49 @@
 
 {% endblock %}
 {% block page_content %}
-    <h1>Main Page</h1>
+    <div class="wrapper">
+        <div class="main main-raised">
+            <div class="section section-basic">
+                <div class="container">
+                    <h1 class="title text-center">MUMT Management Information System</h1>
+                    <h1 class="title text-center"><small>ระบบบริหารจัดการข้อมูลของคณะเทคนิคการแพทย์ มหาวิทยาลัยมหิดล</small></h1>
+                    <div class="features">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="info">
+                                    <div class="icon icon-primary">
+                                        <i class="material-icons">public</i>
+                                    </div>
+                                    <a href="{{ url_for('research.main') }}">
+                                        <h4 class="info-title">ข้อมูลงานวิจัย</h4>
+                                    </a>
+                                    <p>Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="info">
+                                    <div class="icon icon-success">
+                                    <i class="material-icons">school</i>
+                                </div>
+                                <h4 class="info-title">ข้อมูลงานการศึกษา</h4>
+                                <p>Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="info">
+                                    <div class="icon icon-danger">
+                                    <i class="material-icons">supervisor_account</i>
+                                </div>
+                                    <a href="{{  url_for('healthservice.index') }}">
+                                        <h4 class="info-title">ข้อมูลงานบริการวิชาการ</h4>
+                                    </a>
+                                    <p>Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <h3 data-bind="text: message"></h3>
-    <p>Enter a greeting message here.</p>
-    <input type="text" data-bind="textInput: message"/>
 {% endblock %}
