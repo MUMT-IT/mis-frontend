@@ -14,15 +14,15 @@ var viewModel = function() {
     var self = this;
     self.people = ko.observableArray([]);
     self.articles_count = [];
-    $.getJSON('http://localhost:8800/api/abstracts/list/2017', function(articles) {
-        var dataMining = $.getJSON('http://localhost:5570/api/employees/', {'department_slug': 'data-mining'});
-        var researchInno = $.getJSON('http://localhost:5570/api/employees/', {'department_slug': 'research-inno'});
-        var microbio = $.getJSON('http://localhost:5570/api/employees/', {'department_slug': 'microbio'});
-        var micros = $.getJSON('http://localhost:5570/api/employees/', {'department_slug': 'micros'});
-        var clinchem = $.getJSON('http://localhost:5570/api/employees/', {'department_slug': 'clinchem'});
-        var radiology = $.getJSON('http://localhost:5570/api/employees/', {'department_slug': 'radiology'});
-        var commt = $.getJSON('http://localhost:5570/api/employees/', {'department_slug': 'community-mt'});
-        var standval = $.getJSON('http://localhost:5570/api/employees/', {'department_slug': 'stand-validation'});
+    $.getJSON('http://localhost/api/research/abstracts/list/2017', function(articles) {
+        var dataMining = $.getJSON('http://localhost/api/employees/', {'department_slug': 'data-mining'});
+        var researchInno = $.getJSON('http://localhost/api/employees/', {'department_slug': 'research-inno'});
+        var microbio = $.getJSON('http://localhost/api/employees/', {'department_slug': 'microbio'});
+        var micros = $.getJSON('http://localhost/api/employees/', {'department_slug': 'micros'});
+        var clinchem = $.getJSON('http://localhost/api/employees/', {'department_slug': 'clinchem'});
+        var radiology = $.getJSON('http://localhost/api/employees/', {'department_slug': 'radiology'});
+        var commt = $.getJSON('http://localhost/api/employees/', {'department_slug': 'community-mt'});
+        var standval = $.getJSON('http://localhost/api/employees/', {'department_slug': 'stand-validation'});
         $.when(dataMining).done(function(data, statusText, jqXHR) {
             var info = selectDeptArticles(articles, data, ctxDataMining);
             $('#data-mining-total-articles').text(info.totalArticles);
