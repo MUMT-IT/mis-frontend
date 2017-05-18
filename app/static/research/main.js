@@ -51,7 +51,7 @@ var viewModel = function() {
         }
     };
     self.url = ko.computed(function() {
-        return "http://localhost:8800/api/abstracts/list";
+        return "http://localhost/api/research/abstracts/list";
     });
     self.loadAbstracts = function() {
         $.getJSON(self.url(), function(data) {
@@ -120,15 +120,15 @@ function sortArticlesByJournal() {
 function sortArticlesByCitation() {
     vm.filteredArticles.sort(function(a,b) {
         if(vm.reverseSortCitation()===false) {
-            return a.citedByCount < b.citedByCount ? 1 : -1;
+            return parseInt(a.citedByCount) < parseInt(b.citedByCount) ? 1 : -1;
         } else {
-            return a.citedByCount > b.citedByCount ? 1 : -1;
+            return parseInt(a.citedByCount) > parseInt(b.citedByCount) ? 1 : -1;
         }
     });
     vm.reverseSortCitation(!vm.reverseSortCitation()); // toggle sort order
 };
 
-$.getJSON("http://localhost:8800/api/abstracts/numbers", function(data) {
+$.getJSON("http://localhost/api/research/abstracts/numbers", function(data) {
     var articles_chart_labels = [];
     var articles_chart_data = [];
     var citations_chart_data = [];
@@ -173,7 +173,7 @@ $.getJSON("http://localhost:8800/api/abstracts/numbers", function(data) {
             },
             options: {
                 title: {
-                    display: true,
+                    display: false,
                     text: "Articles Per Year",
                     fontSize: 28
                 },
@@ -195,23 +195,25 @@ $.getJSON("http://localhost:8800/api/abstracts/numbers", function(data) {
                     label: 'Number of Citations Per Year',
                     data: citations_annual,
                     borderColor: 'navy',
+                    backgroundColor: 'navy',
                     borderWidth: 1,
                     pointRadius: 4,
                     pointBackgroundColor: 'navy',
-                    fill: false,
+                    fill: false
                 }, {
                     label: 'Cumulative Number of Citations',
                     data: citations_cum,
-                    borderColor: 'rgba(249, 162, 250, 0.8)',
+                    borderColor: 'rgba(226, 6, 76, 0.8)',
+                    backgroundColor: 'rgba(226, 6, 76, 0.8)',
                     borderWidth: 1,
                     pointRadius: 4,
-                    pointBackgroundColor: 'rgba(249, 162, 250, 0.8)',
-                    fill: false,
+                    pointBackgroundColor: 'rgba(226, 6, 76, 0.8)',
+                    fill: false
                 }]
             },
             options: {
                 title: {
-                    display: true,
+                    display: false,
                     text: "Citations Statistics",
                     fontSize: 28
                 },
@@ -225,6 +227,103 @@ $.getJSON("http://localhost:8800/api/abstracts/numbers", function(data) {
             }
     });
 });
+
+var ctxAll = document.getElementById('all-chart').getContext('2d');
+var monthCounts = [0,0,0,0,0,0,0,0,0,0,0,0];
+$.getJSON('http://localhost/api/research/abstracts/list/2017', function(articles) {
+    $.each(articles.data, function(idx, article) {
+        var m = new Date(article.cover_date).getMonth();
+        monthCounts[m] += 1;
+    });
+    $('#all-total-articles').text(articles.data.length);
+    plotArticleCount(ctxAll, monthCounts);
+});
+
+var plotArticleCount = function(canvas, countData) {
+    var thisMonth = new Date().getMonth();
+    var cumData = [];
+    var cnt = 0;
+    for(var i=0; i<=thisMonth; i++) {
+        cnt += countData[i];
+        cumData.push(cnt);
+    }
+    var chart = new Chart(canvas, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [
+                {
+                    label: "Per Month",
+                    data: countData.slice(0,thisMonth),
+                    borderColor: "rgba(0,0,255,0.8)",
+                    backgroundColor: "rgba(102,153,255,0.6)",
+                    borderWidth: 2,
+                    fill: true
+                },
+                {
+                    label: "Cumulative",
+                    data: cumData,
+                    borderColor: "rgba(204,0,204,0.8)",
+                    backgroundColor: "rgba(255,102,255,0.6)",
+                    borderWidth: 2,
+                    fill: true
+                }
+            ],
+        },
+        options: {
+            legend: {
+                display: true
+            },
+            scales: {
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        beginAtZero: true,
+                        suggestedMax: 30 // should make it dynamically adjustable
+                    }
+                }]
+            }
+        }
+    });
+}
+
+var ctxArticleByField = document.getElementById('article-by-field').getContext('2d');
+var articleByField = $.getJSON("http://localhost/api/research/abstracts/subject_areas/");
+$.when(articleByField).done(function(data) {
+    var fields = [];
+    var articles = [];
+    var y = new Date().getFullYear();
+    $.each(data, function(idx, item) {
+        if(item.year === y) {
+            $.each(item.counts, function(ix, cnt) {
+                if(cnt.affil==="MUMT") {
+                    if(cnt.area!=="ARTS" && cnt.area!=="DENT" && cnt.area!=="SOCI"
+                    && cnt.area!=="ECON" && cnt.area!=="BUSI" && cnt.area!=="MATE"
+                    && cnt.area!=="ENVI" && cnt.area!=="EART" && cnt.area!=="VETE"
+                    && cnt.area!=="DECI" && cnt.area!=="NURS" && cnt.area!=="ENER"
+                    && cnt.area!=="PSYC") {
+                        articles.push(cnt.articles);
+                        fields.push(cnt.area);
+                    }
+                }
+            })
+        }
+    })
+    var radarChart = new Chart(ctxArticleByField, {
+        type: 'radar',
+        data: {
+            labels: fields,
+            datasets: [
+                {
+                    label: "Scopus Research Area",
+                    data: articles,
+                    borderColor: "rgba(0,0,255,0.8)",
+                    backgroundColor: "rgba(19, 87, 196, 0.6)",
+                }
+            ]
+        }
+    })
+})
 
 var vm = new viewModel();
 vm.loadAbstracts();

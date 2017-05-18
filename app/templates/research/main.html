@@ -11,35 +11,55 @@
             <div class="section section-basic">
                 <div class="container">
                     <div class="row">
-                        <h1>รายงานสรุปผลงานวิจัย (Research Summary Report)</h1>
+                        <h1>ผลงานวิจัย</h1>
                     </div>
                     <div class="row">
                         <ul class="nav nav-pills" role="tablist">
                             <li role="presentation" class="active"><a href="#" role="tab">Overall</a></li>
                             <li role="presentation"><a href="{{ url_for('research.benchmark') }}" role="tab">Benchmark</a></li>
                             <li role="presentation"><a href="{{ url_for('research.show_department_all') }}" role="tab">Department</a></li>
+                            <li role="presentation"><a href="{{ url_for('main.main') }}" role="tab">Home</a></li>
                         </ul>
                         <br/>
                     </div>
+                    <br>
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="card">
-                                <div class="content">
-                                    <canvas id="articles_per_year"></canvas>
-                                </div>
-                            </div> <!-- card -->
+                            <h3>จำนวนผลงานวิจัยต่อปี</h3>
+                            <br/>
+                            <canvas id="articles_per_year"></canvas>
                         </div>
                         <div class="col-md-6">
-                            <div class="card">
-                                <div class="content">
-                                    <canvas id="citations_per_year"></canvas>
-                                </div>
-                            </div> <!-- card -->
+                            <h3>จำนวนครั้งที่อ้างอิงงานวิจัย</h3>
+                            <br/>
+                            <canvas id="citations_per_year"></canvas>
                         </div>
                     </div> <!-- row: graphs -->
+                    <br><br>
                     <div class="row">
-                        <h3>ผลงานวิจัยตั้งแต่ปี 2010 ถึงปัจจุบัน</h3>
-                        <div class="input-group col-md-5">
+                        <div class="col-md-7">
+                            <h3>จำนวนผลงานวิจัยปีปัจจุบัน</h3>
+                            <br>
+                            <h4>รวม <span id="all-total-articles"></span> บทความ</h4>
+                            <canvas id="all-chart" height="60"></canvas>
+                            <a href="{{ url_for('research.show_department_all') }}">ดูผลงานแยกตามหน่วยงาน</a>
+                            <h5 class="text-right">Scopus Research Areas <i class="fa fa-chevron-right"></i></h5>
+                            <p class="text-right">PHAR=Pharmacology, Toxicology and Pharmaceuticals,
+                            BIOC=Biochemistry, Genetics and Molecular Biology,
+                            CENG=Chemical Engineering, NEUR=Neuroscience, COMP=Computer Science,
+                            HEAL=Health Profession, MATH=Mathematics, PHYS=Physics and Astronomy,
+                            MULT=Multidisciplinary, AGRI=Agriculture and Biological Sciences</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h3>งานวิจัยแยกตามสาขา</h3>
+                            <br>
+                            <canvas id="article-by-field"></canvas>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="row">
+                        <h3>รายการผลงานวิจัยตั้งแต่ปี 2010 ถึงปัจจุบัน</h3>
+                        <div class="input-group col-md-6">
                             <input id="articleSearch" type="text" class="form-control"
                                    data-bind="textInput: query"
                                    placeholder="ค้นหาจากชื่อเรื่อง ชื่อวารสาร และผู้วิจัย.."/>

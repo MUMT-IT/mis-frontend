@@ -146,7 +146,6 @@ var plotArticleCount = function(canvas, countData) {
     }
     var chart = new Chart(canvas, {
         type: 'line',
-        height: 200,
         data: {
             labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
             datasets: [

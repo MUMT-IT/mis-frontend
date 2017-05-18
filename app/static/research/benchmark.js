@@ -127,6 +127,21 @@ var plotBarChart = function(countData, ctx, fields) {
                     backgroundColor: "rgba(158, 78, 4, 0.8)",
                 }
             ]
+        },
+        options: {
+            legend: {
+                display: true
+            },
+            scales: {
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 5,
+                        max: 25 // should make it dynamically adjustable
+                    }
+                }]
+            }
         }
     })
 }
