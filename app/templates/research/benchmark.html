@@ -18,8 +18,29 @@
                         <li role="presentation"><a href="{{ url_for('research.main') }}" role="tab">Overall</a></li>
                         <li role="presentation" class="active"><a href="#" role="tab">Benchmark</a></li>
                         <li role="presentation"><a href="{{ url_for('research.show_department_all') }}" role="tab">Department</a></li>
+                        <li role="presentation"><a href="{{ url_for('main.main') }}" role="tab">Home</a></li>
                     </ul>
                     <br/>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>จำนวนผลงานวิจัยในฐานข้อมูล Scopus ต่อปี</h3>
+                        <div class="card">
+                            <div class="content">
+                                <canvas id="article-numbers" height="100"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>จำนวนผลงานวิจัย <strong>สะสม</strong>ในฐานข้อมูล Scopus ต่อปี</h3>
+                        <div class="card">
+                            <div class="content">
+                                <canvas id="cum-article-numbers" height="100"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <h3>Articles by Fields</h3>
                 <ol>
@@ -29,8 +50,8 @@
                     <li>COMP: Computer Science</li>
                 </ol>
                 <div class="row">
-                    <div class="col-md-11">
-                        <h4>2015</h4>
+                    <div class="col-md-12">
+                        <h3>2013</h3>
                         <div class="card">
                             <div class="content">
                                 <canvas id="article-by-field-1" height="40"></canvas>
@@ -39,8 +60,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-11">
-                        <h4>2016</h4>
+                    <div class="col-md-12">
+                        <h3>2014</h3>
                         <div class="card">
                             <div class="content">
                                 <canvas id="article-by-field-2" height="40"></canvas>
@@ -49,11 +70,31 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-11">
-                        <h4>2017 (May)</h4>
+                    <div class="col-md-12">
+                        <h3>2015</h3>
                         <div class="card">
                             <div class="content">
                                 <canvas id="article-by-field-3" height="40"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>2016</h3>
+                        <div class="card">
+                            <div class="content">
+                                <canvas id="article-by-field-4" height="40"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>2017 (May)</h3>
+                        <div class="card">
+                            <div class="content">
+                                <canvas id="article-by-field-5" height="40"></canvas>
                             </div>
                         </div>
                     </div>
