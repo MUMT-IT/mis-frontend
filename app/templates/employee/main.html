@@ -11,6 +11,12 @@
         <div class="section section-basic">
             <div class="container">
                 <div class="row">
+                    <ul class="nav nav-pills" role="tablist">
+                        <li role="presentation"><a href="{{ url_for('main.main') }}" role="tab">Home</a></li>
+                    </ul>
+                    <br/>
+                </div>
+                <div class="row">
                     <h1>ข้อมูลสถิติบุคลากร</h1>
                 </div>
                 <div class="row">
@@ -49,6 +55,29 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <h3>รายชื่อคณาจารย์และบุคลากรตามภาควิชาและศูนย์</h3>
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="list-group">
+                            <a href="{{ url_for('employee.list_staff', department_slug='clinchem') }}"
+                                class="list-group-item">Department of Clinical Chemistry</a>
+                            <a href="{{ url_for('employee.list_staff', department_slug='micros') }}"
+                                class="list-group-item">Department of Clinical Microscopy</a>
+                            <a href="{{ url_for('employee.list_staff', department_slug='microbio') }}"
+                                class="list-group-item">Department of Clinical Microbiology and Applied Technology</a>
+                            <a href="{{ url_for('employee.list_staff', department_slug='community-mt') }}"
+                                class="list-group-item">Department of Community Medical Technology</a>
+                            <a href="{{ url_for('employee.list_staff', department_slug='radiology') }}"
+                                class="list-group-item">Department of Radiology</a>
+                            <a href="{{ url_for('employee.list_staff', department_slug='stand-validate') }}"
+                                class="list-group-item">Department of Center for Standardization and Product Validation</a>
+                            <a href="{{ url_for('employee.list_staff', department_slug='research-inno') }}"
+                                class="list-group-item">Department of Center for Research and Innovation</a>
+                            <a href="{{ url_for('employee.list_staff', department_slug='data-mining') }}"
+                                class="list-group-item">Department of Center for Data Mining and Biomedical Informatics</a>
                         </div>
                     </div>
                 </div>

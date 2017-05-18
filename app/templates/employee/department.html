@@ -1,16 +1,7 @@
-{% extends "bootstrap/base.html" %}
-{% block title %}MIS-Research{% endblock %}
+{% extends "base.html" %}
+{% block title %}<title>MIS Department</title>{% endblock %}
 {% block scripts %}
 {{ super() }}
-<script src="{{ url_for('static', filename='vendors/jquery.min.js') }}"
-        type="text/javascript">
-</script>
-<script src="{{ url_for('static', filename='vendors/knockout.js') }}"
-        type="text/javascript">
-</script>
-<script src="{{ url_for('static', filename='vendors/Chart.min.js') }}"
-        type="text/javascript">
-</script>
 <script type="text/javascript">
     var dept_slug = {{  dept_slug | tojson }};
 </script>
@@ -19,74 +10,85 @@
 </script>
 {% endblock %}
 
-{% block content %}
-<div class="container">
-    {% block page_content %}
-        <div class="row">
-            <h1><span data-bind="text: departmentName"></span></h1>
-            <div class="panel panel-default">
-                <div class="panel-heading"><h2 class="panel-title">Head</h2></div>
-                <div class="panel-body">
-                    <!-- ko foreach: {data: departmentHead, as: 'emp'} -->
+{% block page_content %}
+<div class="wrapper">
+    <div class="main main-raised">
+        <div class="section section-basic">
+            <div class="container">
+                <div class="row">
                     <div class="row">
-                        <div class="col-md-2 col-md-offset-1">
-                            <img data-bind="attr: {src: imgUrl}" class="img-rounded" width="110" height="160"><br/>
-                        </div>
-                        <div class="col-md-4">
-                            <address>
-                                <strong>
-                                    <span data-bind="text: emp.position_th + ' ' + emp.degree_th + emp.name_th" class="text-center"></span><br/>
-                                </strong>
-                                <strong>
-                                    <span data-bind="text: emp.position_en + ' ' + emp.degree_en + ' ' + emp.name_en" class="text-center"></span><br/>
-                                </strong>
-                                Office: <span data-bind="text: emp.officeRoom"></span><br>
-                                Campus: <span data-bind="text: emp.campus"></span><br>
-                                Phone: <span data-bind="text: emp.cellphone"></span><br>
-                                Email: <a data-bind="attr: {href: 'mailto:'+emp.email}, text: emp.email"
-                                          class="text-center"></a><br>
-                                Research: <a data-bind="attr: {href: emp.profileUrl}, text: 'profile'"
-                                             class="text-center"></a>
-                            </address>
-                        </div>
+                        <ul class="nav nav-pills" role="tablist">
+                            <li role="presentation"><a href="{{ url_for('main.main') }}" role="tab">Home</a></li>
+                            <li role="presentation"><a href="{{ url_for('employee.main') }}" role="tab">Back</a></li>
+                        </ul>
+                        <br/>
                     </div>
-                    <!-- /ko -->
+                    <h1><span data-bind="text: departmentName"></span></h1>
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h2 class="panel-title">Head</h2></div>
+                        <div class="panel-body">
+                            <!-- ko foreach: {data: departmentHead, as: 'emp'} -->
+                            <div class="row">
+                                <div class="col-md-2 col-md-offset-1">
+                                    <img data-bind="attr: {src: imgUrl}" class="img-rounded" width="110" height="160"><br/>
+                                </div>
+                                <div class="col-md-4">
+                                    <address>
+                                        <strong>
+                                            <span data-bind="text: emp.position_th + ' ' + emp.degree_th + emp.name_th" class="text-center"></span><br/>
+                                        </strong>
+                                        <strong>
+                                            <span data-bind="text: emp.position_en + ' ' + emp.degree_en + ' ' + emp.name_en" class="text-center"></span><br/>
+                                        </strong>
+                                        Office: <span data-bind="text: emp.officeRoom"></span><br>
+                                        Campus: <span data-bind="text: emp.campus"></span><br>
+                                        Phone: <span data-bind="text: emp.cellphone"></span><br>
+                                        Email: <a data-bind="attr: {href: 'mailto:'+emp.email}, text: emp.email"
+                                                  class="text-center"></a><br>
+                                        Research: <a data-bind="attr: {href: emp.profileUrl}, text: 'profile'"
+                                                     class="text-center"></a>
+                                    </address>
+                                </div>
+                            </div>
+                            <!-- /ko -->
 
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2 class="panel-title">Members</h2>
-                </div>
-                <div class="panel-body">
-                    <!-- ko foreach: {data: employees, as: 'emp'} -->
-                    <div class="row">
-                        <div class="col-md-2 col-md-offset-1">
-                            <img data-bind="attr: {src: imgUrl}" class="img-rounded" width="110" height="160"><br/>
-                        </div>
-                        <div class="col-md-4">
-                            <address>
-                                <strong>
-                                    <span data-bind="text: emp.position_th + ' ' + emp.degree_th + emp.name_th" class="text-center"></span><br/>
-                                </strong>
-                                <strong>
-                                    <span data-bind="text: emp.position_en + ' ' + emp.degree_en + ' ' + emp.name_en" class="text-center"></span><br/>
-                                </strong>
-                                Office: <span data-bind="text: emp.officeRoom"></span><br>
-                                Campus: <span data-bind="text: emp.campus"></span><br>
-                                Phone: <span data-bind="text: emp.cellphone"></span><br>
-                                Email: <a data-bind="attr: {href: 'mailto:'+emp.email}, text: emp.email"
-                                          class="text-center"></a><br>
-                                Research: <a data-bind="attr: {href: emp.profileUrl}, text: 'profile'"
-                                             class="text-center"></a>
-                            </address>
                         </div>
                     </div>
-                    <br/>
-                    <!-- /ko -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">Members</h2>
+                        </div>
+                        <div class="panel-body">
+                            <!-- ko foreach: {data: employees, as: 'emp'} -->
+                            <div class="row">
+                                <div class="col-md-2 col-md-offset-1">
+                                    <img data-bind="attr: {src: imgUrl}" class="img-rounded" width="110" height="160"><br/>
+                                </div>
+                                <div class="col-md-4">
+                                    <address>
+                                        <strong>
+                                            <span data-bind="text: emp.position_th + ' ' + emp.degree_th + emp.name_th" class="text-center"></span><br/>
+                                        </strong>
+                                        <strong>
+                                            <span data-bind="text: emp.position_en + ' ' + emp.degree_en + ' ' + emp.name_en" class="text-center"></span><br/>
+                                        </strong>
+                                        Office: <span data-bind="text: emp.officeRoom"></span><br>
+                                        Campus: <span data-bind="text: emp.campus"></span><br>
+                                        Phone: <span data-bind="text: emp.cellphone"></span><br>
+                                        Email: <a data-bind="attr: {href: 'mailto:'+emp.email}, text: emp.email"
+                                                  class="text-center"></a><br>
+                                        Research: <a data-bind="attr: {href: emp.profileUrl}, text: 'profile'"
+                                                     class="text-center"></a>
+                                    </address>
+                                </div>
+                            </div>
+                            <br/>
+                            <!-- /ko -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    {% endblock %}
+    </div>
 </div>
 {% endblock %}
