@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='research/benchmark.js')}}">
+    </script>
+{% endblock %}
+{% block page_content %}
+<div class="wrapper">
+    <div class="main main-raised">
+        <div class="section section-basic">
+            <div class="container">
+                <div class="row">
+                    <h1>รายงานสรุปผลงานวิจัยเทียบกับคู่เทียบ</h1>
+                </div>
+                <div class="row">
+                    <ul class="nav nav-pills" role="tablist">
+                        <li role="presentation"><a href="{{ url_for('research.main') }}" role="tab">Overall</a></li>
+                        <li role="presentation" class="active"><a href="#" role="tab">Benchmark</a></li>
+                        <li role="presentation"><a href="{{ url_for('research.show_department_all') }}" role="tab">Department</a></li>
+                    </ul>
+                    <br/>
+                </div>
+                <h3>Articles by Fields</h3>
+                <ol>
+                    <li>PHAR: Pharmacology, Toxicology and Pharmaceuticals</li>
+                    <li>CHEM: Chemistry</li>
+                    <li>CENG: Chemical Engineering</li>
+                    <li>COMP: Computer Science</li>
+                </ol>
+                <div class="row">
+                    <div class="col-md-11">
+                        <h4>2015</h4>
+                        <div class="card">
+                            <div class="content">
+                                <canvas id="article-by-field-1" height="40"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-11">
+                        <h4>2016</h4>
+                        <div class="card">
+                            <div class="content">
+                                <canvas id="article-by-field-2" height="40"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-11">
+                        <h4>2017 (May)</h4>
+                        <div class="card">
+                            <div class="content">
+                                <canvas id="article-by-field-3" height="40"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

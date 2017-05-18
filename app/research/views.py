@@ -5,6 +5,11 @@ from flask import render_template
 def main():
     return render_template('research/main.html')
 
+
+@research.route('/benchmark')
+def benchmark():
+    return render_template('research/benchmark.html')
+
 @research.route('/embed')
 def main_embed():
     return render_template('research/main-naked.html')
