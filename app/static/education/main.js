@@ -1,6 +1,8 @@
 var ctxWRS = document.getElementById('wrs-chart').getContext('2d');
+var ctxSatisfaction = document.getElementById('satisfaction-chart').getContext('2d');
 
 var evals = $.getJSON("http://localhost/api/education/evaluation/edpex/wrs/");
+var satis = $.getJSON("http://localhost/api/education/evaluation/edpex/satisfaction/")
 
 $.when(evals).done(function(data) {
     var scoreData = {};
@@ -37,7 +39,6 @@ $.when(evals).done(function(data) {
             backgroundColor: backgroundColor[ix],
         })
     })
-    console.log(plotData);
     plotBarChart(ctxWRS, plotData, years);
 });
 
@@ -71,3 +72,44 @@ var plotBarChart = function(ctx, data, years) {
         }
     });
 }
+
+$.when(satis).done(function(data) {
+    var scores = [];
+    var years = [];
+    $.each(data, function(ix, d) {
+        scores.push(d.score);
+        years.push(d.year);
+    })
+    var lineChart = new Chart(ctxSatisfaction, {
+        type: 'line',
+        data: {
+            labels: years,
+            datasets: [
+                {
+                    data: scores,
+                    borderColor: [
+                        "#000995",
+                    ]
+                }
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        fontSize: 16
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        fontSize: 16
+                    }
+                }]
+            },
+            legend: {
+                display: false
+            }
+        }
+    })
+})
