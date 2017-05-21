@@ -45,18 +45,29 @@ var plotBarChart = function(ctx, data, years) {
     var plotData = {
         labels: years,
         datasets: data,
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        min: 0,
-                    }
-                }]
-            }
-        }
     };
     var chart = new Chart(ctx, {
         type: 'bar',
         data: plotData,
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        fontSize: 16
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        fontSize: 16
+                    }
+                }]
+            },
+            legend: {
+                labels: {
+                    fontSize: 14
+                }
+            }
+        }
     });
 }
