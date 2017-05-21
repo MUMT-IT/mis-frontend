@@ -2,10 +2,13 @@ var ctxWRS = document.getElementById('wrs-chart').getContext('2d');
 var ctxSatisfaction = document.getElementById('satisfaction-chart').getContext('2d');
 var ctxMtLicense = document.getElementById('mt-license-chart').getContext('2d');
 var ctxRtLicense = document.getElementById('rt-license-chart').getContext('2d');
+var ctxWRSDev1 = document.getElementById('wrs-dev-chart-1').getContext('2d');
+var ctxWRSDev2 = document.getElementById('wrs-dev-chart-2').getContext('2d');
 
 var evals = $.getJSON("http://localhost/api/education/evaluation/edpex/wrs/");
 var satis = $.getJSON("http://localhost/api/education/evaluation/edpex/satisfaction/")
 var license = $.getJSON("http://localhost/api/education/evaluation/edpex/license/")
+var wrsDevelopment = $.getJSON("http://localhost/api/education/wrs/results/development/")
 
 $.when(evals).done(function(data) {
     var scoreData = {};
@@ -252,3 +255,90 @@ $.when(license).done(function(data) {
         }
     })
 })
+
+$.when(wrsDevelopment).done(function(data) {
+    data_ = {};
+    var year;
+    $.each(data.data, function(idx, dat) {
+        year = dat.year;
+        postd = [];
+        pred = [];
+        $.each(dat.results, function(ix, d) {
+            if (d.question==="knowledge") {
+                if(d.post===true) {
+                    postd[0] = d.value;
+                } else {
+                    pred[0] = d.value;
+                }
+            } else if (d.question==="creativity") {
+                if (d.post===true) {
+                    postd[1] = d.value;
+                } else {
+                    pred[1] = d.value;
+                }
+            } else if (d.question==="analysis") {
+                if (d.post===true) {
+                    postd[2] = d.value;
+                } else {
+                    pred[2] = d.value;
+                }
+            } else if (d.question==="leadership") {
+                if (d.post===true) {
+                    postd[3] = d.value;
+                } else {
+                    pred[3] = d.value;
+                }
+            } else if (d.question==="socialresp") {
+                if (d.post===true) {
+                    postd[4] = d.value;
+                } else {
+                    pred[4] = d.value;
+                }
+            } else if (d.question==="prof_skill") {
+                if (d.post===true) {
+                    postd[5] = d.value;
+                } else {
+                    pred[5] = d.value;
+                }
+            }
+        })
+        data_[year] = {
+            'post': postd,
+            'pre': pred,
+            'year': year
+        }
+    })
+    console.log(data_)
+    plotRadarChart(ctxWRSDev1, data_[2557]);
+    plotRadarChart(ctxWRSDev2, data_[2558]);
+})
+
+var plotRadarChart = function(ctx, data) {
+    var radarChart1 = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: ["ความรู้", "ความคิดสร้างสรรค์", "การคิดวิเคราะห์", "ภาวะผู้นำ", "สังคม", "ทักษะทางวิชาชีพ"],
+            datasets: [
+                {
+                    label: 'post',
+                    data: data.post,
+                    borderColor: "rgba(193,3,3,0.8)",
+                    backgroundColor: "rgba(226,61,61,0.3)",
+                },
+                {
+                    label: 'pre',
+                    data: data.pre,
+                    borderColor: "rgba(96,95,95,0.8)",
+                    backgroundColor: "rgba(160,159,159,0.3)",
+                }
+            ]
+        },
+        options: {
+            scale: [{
+                ticks: {
+                    fontSize: 16
+                }
+            }],
+        }
+    })
+}
