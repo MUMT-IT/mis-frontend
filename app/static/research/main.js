@@ -51,7 +51,7 @@ var viewModel = function() {
         }
     };
     self.url = ko.computed(function() {
-        return "http://localhost/api/research/abstracts/list";
+        return "/api/research/abstracts/list";
     });
     self.loadAbstracts = function() {
         $.getJSON(self.url(), function(data) {
@@ -128,7 +128,7 @@ function sortArticlesByCitation() {
     vm.reverseSortCitation(!vm.reverseSortCitation()); // toggle sort order
 };
 
-$.getJSON("http://localhost/api/research/abstracts/numbers", function(data) {
+$.getJSON("/api/research/abstracts/numbers", function(data) {
     var articles_chart_labels = [];
     var articles_chart_data = [];
     var citations_chart_data = [];
@@ -230,7 +230,7 @@ $.getJSON("http://localhost/api/research/abstracts/numbers", function(data) {
 
 var ctxAll = document.getElementById('all-chart').getContext('2d');
 var monthCounts = [0,0,0,0,0,0,0,0,0,0,0,0];
-$.getJSON('http://localhost/api/research/abstracts/list/2017', function(articles) {
+$.getJSON('/api/research/abstracts/list/2017', function(articles) {
     $.each(articles.data, function(idx, article) {
         var m = new Date(article.cover_date).getMonth();
         monthCounts[m] += 1;
@@ -288,7 +288,7 @@ var plotArticleCount = function(canvas, countData) {
 }
 
 var ctxArticleByField = document.getElementById('article-by-field').getContext('2d');
-var articleByField = $.getJSON("http://localhost/api/research/abstracts/subject_areas/");
+var articleByField = $.getJSON("/api/research/abstracts/subject_areas/");
 $.when(articleByField).done(function(data) {
     var fields = [];
     var articles = [];
