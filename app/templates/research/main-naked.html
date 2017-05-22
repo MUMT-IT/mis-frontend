@@ -12,21 +12,43 @@
     type="text/javascript">
 </script>
 <script type="text/javascript"
-    src="{{ url_for('static', filename='research/main.js')}}">
+    src="{{ url_for('static', filename='research/main-embed.js')}}">
 </script>
 {% endblock %}
 
 {% block content %}
     <div class="container">
     {% block page_content %}
+        <h3>Articles Per Year</h3>
         <div class="row">
-            <canvas id="articles_per_year"></canvas>
+            <canvas id="articles_per_year" height="100"></canvas>
         </div>
+        <br><br>
+        <h3>Citations Per Year</h3>
         <div class="row">
-            <canvas id="citations_per_year"></canvas>
+            <canvas id="citations_per_year" height="100"></canvas>
         </div>
+        <br><br>
+        <h3>Articles Published This Year</h3>
+        <div class="row">
+            <canvas id="all-chart" height="70"></canvas>
+        </div>
+        <br><br>
+        <h3>Articles Categorized by Scopus Research Areas</h3>
+        <div class="row">
+            <h5 class="text-left">Scopus Research Areas <i class="fa fa-chevron-right"></i></h5>
+            <p class="text-left">PHAR=Pharmacology, Toxicology and Pharmaceuticals,
+                BIOC=Biochemistry, Genetics and Molecular Biology,
+                CENG=Chemical Engineering, NEUR=Neuroscience, COMP=Computer Science,
+                HEAL=Health Profession, MATH=Mathematics, PHYS=Physics and Astronomy,
+                MULT=Multidisciplinary, AGRI=Agriculture and Biological Sciences,
+                MEDI=Medicine</p>
+            <canvas id="article-by-field" height="150"></canvas>
+        </div>
+        <br><br>
         <div class="row">
             <h3>Recent Research Articles 2010-present</h3>
+            <br>
             <div class="form-group col-xm-4">
                 <div class="input-group">
                     <div class="input-group-addon">
@@ -93,15 +115,15 @@
                 <tbody data-bind="foreach: {data: paginated, as: 'article'}">
                     <tr>
                         <td>
-                            <span data-bind="text: article.title"></span> 
+                            <span data-bind="text: article.title"></span>
                             <a href="#" role="button" data-toggle="modal"
-                                data-bind='attr: {"data-target": "#" + $index()}'>View abstract..</a> 
+                                data-bind='attr: {"data-target": "#" + $index()}'>View abstract..</a>
                             <strong>Cited</strong> <span data-bind="text: article.citedByCount" class="badge"></span>
                         </td>
                         <td data-bind="text: article.journal"></td>
                         <td data-bind="text: article.coverDateString"></td>
                         <td data-bind="foreach: article.authors">
-                            <a href="#" data-bind="text: name"></a>,
+                            <span data-bind="text: name"></span>,
                         </td>
                     </tr>
                 </tbody>
