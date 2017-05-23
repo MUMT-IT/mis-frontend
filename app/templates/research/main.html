@@ -113,14 +113,16 @@
                             <tbody data-bind="foreach: {data: paginated, as: 'article'}">
                             <tr>
                                 <td>
-                                    <span data-bind="text: article.title"></span>
                                     <a href="#" role="button" data-toggle="modal"
-                                       data-bind='attr: {"data-target": "#" + $index()}'>View abstract</a>
-                                    <strong>Cited</strong> <span class="badge" data-bind="text: article.citedByCount"></span>
+                                       data-bind='attr: {"data-target": "#" + $index()}'>
+                                        <span data-bind="text: article.title"></span>
+                                    </a>
+                                    <strong>Cited</strong> <span class="badge"
+                                        data-bind="text: article.citedByCount"></span>
                                 </td>
-                                <td data-bind="text: article.journal"></td>
-                                <td data-bind="text: article.coverDateString"></td>
-                                <td data-bind="foreach: article.authors">
+                                <td data-bind="text: article.journal" width="10%"></td>
+                                <td data-bind="text: article.coverDateString" width="10%"></td>
+                                <td data-bind="foreach: article.authors" width="35%">
                                     <span data-bind="text: name"></span>,
                                 </td>
                             </tr>
