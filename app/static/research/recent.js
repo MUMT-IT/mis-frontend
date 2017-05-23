@@ -2,7 +2,7 @@
 
 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May',
     'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-var articlePerPage = 20;
+var articlePerPage = 30;
 var viewModel = function() {
     var self = this;
     self.loading = ko.observable(true);
