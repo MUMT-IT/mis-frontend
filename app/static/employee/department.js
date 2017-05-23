@@ -26,7 +26,6 @@ viewModel = function () {
                     "imgUrl": "/api/employees/image/" + e["_id"]["$oid"],
                     "profileUrl": "/employee/profile/" + e["_id"]["$oid"],
                 };
-                console.log(emp["degree"])
                 emp["degree_en"] = emp["degree"] == 3 ? "Dr." : "";
                 emp["degree_th"] = emp["degree"] == 3 ? "ดร." : "";
                 emp["position_en"] = emp["position"];
@@ -50,7 +49,6 @@ viewModel = function () {
                         'headId': d["head"]["$oid"],
                         "nameEN": d["name_en"]
                     };
-                    console.log(dept)
                     self.departmentName(dept["nameEN"]);
                     var deptMembersOnly = [];
                     $.each(self.employees(), function(idx, e) {
