@@ -94,7 +94,7 @@ var plotChart = function (canvas, years, medilab, mobile, toxicology, chromosome
                     fill: true
                 },
                 {
-                    label: "ศูนย์ความเป็นเลิศการบริการสุขภาพและมาตรฐานวิชาชีพ",
+                    label: "ศูนย์พัฒนามาตรฐานและการประเมินผลิตภัณฑ์",
                     data: excellentCenter,
                     borderColor: "rgba(63,214,252,0.8)",
                     backgroundColor: "rgba(63,214,252,0.5)",
