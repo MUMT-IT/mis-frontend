@@ -50,8 +50,9 @@ var viewModel = function() {
             self.currpage(0);
         }
     };
+    var currYear = new Date().getFullYear();
     self.url = ko.computed(function() {
-        return "/api/research/abstracts/list";
+        return "/api/research/abstracts/list/" + currYear;
     });
     self.loadAbstracts = function() {
         $.getJSON(self.url(), function(data) {
@@ -61,7 +62,8 @@ var viewModel = function() {
                 date = date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
                 var authorList = [];
                 $.each(d.authors, function(_, auth) {
-                    authorList.push(auth.name);
+                    var name = auth.last_name + " " + auth.first_name[0];
+                    authorList.push(name);
                 })
                 var abs = {
                     title: d.title,
@@ -130,20 +132,23 @@ function sortArticlesByCitation() {
 
 var ctxAll = document.getElementById('all-chart').getContext('2d');
 var monthCounts = [0,0,0,0,0,0,0,0,0,0,0,0];
+var mostPubMonth = 0;
 $.getJSON('/api/research/abstracts/list/2017', function(articles) {
     $.each(articles.data, function(idx, article) {
         var m = new Date(article.cover_date).getMonth();
         monthCounts[m] += 1;
+        if (m > mostPubMonth) {
+            mostPubMonth = m;
+        }
     });
     $('#all-total-articles').text(articles.data.length);
-    plotArticleCount(ctxAll, monthCounts);
+    plotArticleCount(ctxAll, monthCounts, mostPubMonth);
 });
 
-var plotArticleCount = function(canvas, countData) {
-    var thisMonth = new Date().getMonth();
+var plotArticleCount = function(canvas, countData, mostPubMonth) {
     var cumData = [];
     var cnt = 0;
-    for(var i=0; i<=thisMonth; i++) {
+    for(var i=0; i<=mostPubMonth; i++) {
         cnt += countData[i];
         cumData.push(cnt);
     }
@@ -154,7 +159,7 @@ var plotArticleCount = function(canvas, countData) {
             datasets: [
                 {
                     label: "Per Month",
-                    data: countData.slice(0,thisMonth),
+                    data: countData.slice(0,mostPubMonth+1),
                     borderColor: "rgba(0,0,255,0.8)",
                     backgroundColor: "rgba(102,153,255,0.6)",
                     borderWidth: 2,

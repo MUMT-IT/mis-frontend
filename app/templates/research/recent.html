@@ -31,7 +31,7 @@
                     </div>
                     <input id="articleSearch" type="search"
                         data-bind="textInput: query" class="form-control"
-                        placeholder="Search for title, journal and authors..."/>
+                        placeholder="Search for recent articles by title, journal and authors..."/>
                 </div>
             </div>
             <h4 data-bind="if: query()!==''">Found <span data-bind="text: filteredArticles().length"></span></h4>
@@ -44,9 +44,7 @@
                      <span data-bind="text: 'Cited ' + article.citedByCount" class="badge"></span>
                     <strong><span data-bind="text: article.journal"></span></strong>
                     <span data-bind="text: article.coverDateString"></span>
-                    <small><span data-bind="foreach: article.authors">
-                        <span data-bind="text: name"></span>,
-                    </span></small>
+                    <small><span data-bind="text: authorList"></span></small>
                 </li>
             </ol>
             <!-- ko foreach: filteredArticles -->
