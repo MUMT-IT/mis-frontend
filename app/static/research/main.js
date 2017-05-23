@@ -3,6 +3,7 @@
 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May',
                 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 var articlePerPage = 20;
+var currYear = new Date().getFullYear();
 var viewModel = function() {
     var self = this;
     self.loading = ko.observable(true);
@@ -28,7 +29,7 @@ var viewModel = function() {
         }
         return p;
     });
-    self.pubYear = ko.observable('2017');
+    self.pubYear = ko.observable(currYear);
     self.reverseSortDate = ko.observable(true);
     self.reverseSortTitle = ko.observable(false);
     self.reverseSortJournal = ko.observable(false);
@@ -230,20 +231,23 @@ $.getJSON("/api/research/abstracts/numbers", function(data) {
 
 var ctxAll = document.getElementById('all-chart').getContext('2d');
 var monthCounts = [0,0,0,0,0,0,0,0,0,0,0,0];
+var lastPubMonth = 0;
 $.getJSON('/api/research/abstracts/list/2017', function(articles) {
     $.each(articles.data, function(idx, article) {
         var m = new Date(article.cover_date).getMonth();
         monthCounts[m] += 1;
+        if (lastPubMonth < m) {
+            lastPubMonth = m;
+        }
     });
     $('#all-total-articles').text(articles.data.length);
-    plotArticleCount(ctxAll, monthCounts);
+    plotArticleCount(ctxAll, monthCounts, lastPubMonth);
 });
 
-var plotArticleCount = function(canvas, countData) {
-    var thisMonth = new Date().getMonth();
+var plotArticleCount = function(canvas, countData, lastPubMonth) {
     var cumData = [];
     var cnt = 0;
-    for(var i=0; i<=thisMonth; i++) {
+    for(var i=0; i<=lastPubMonth; i++) {
         cnt += countData[i];
         cumData.push(cnt);
     }
@@ -254,7 +258,7 @@ var plotArticleCount = function(canvas, countData) {
             datasets: [
                 {
                     label: "Per Month",
-                    data: countData.slice(0,thisMonth),
+                    data: countData.slice(0,lastPubMonth+1),
                     borderColor: "rgba(0,0,255,0.8)",
                     backgroundColor: "rgba(102,153,255,0.6)",
                     borderWidth: 2,
