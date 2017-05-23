@@ -14,15 +14,15 @@ var viewModel = function() {
     var self = this;
     self.people = ko.observableArray([]);
     self.articles_count = [];
-    $.getJSON('http://localhost/api/research/abstracts/list/2017', function(articles) {
-        var dataMining = $.getJSON('http://localhost/api/employees/', {'department_slug': 'data-mining'});
-        var researchInno = $.getJSON('http://localhost/api/employees/', {'department_slug': 'research-inno'});
-        var microbio = $.getJSON('http://localhost/api/employees/', {'department_slug': 'microbio'});
-        var micros = $.getJSON('http://localhost/api/employees/', {'department_slug': 'micros'});
-        var clinchem = $.getJSON('http://localhost/api/employees/', {'department_slug': 'clinchem'});
-        var radiology = $.getJSON('http://localhost/api/employees/', {'department_slug': 'radiology'});
-        var commt = $.getJSON('http://localhost/api/employees/', {'department_slug': 'community-mt'});
-        var standval = $.getJSON('http://localhost/api/employees/', {'department_slug': 'stand-validation'});
+    $.getJSON('/api/research/abstracts/list/2017', function(articles) {
+        var dataMining = $.getJSON('/api/employees/', {'department_slug': 'data-mining'});
+        var researchInno = $.getJSON('/api/employees/', {'department_slug': 'research-inno'});
+        var microbio = $.getJSON('/api/employees/', {'department_slug': 'microbio'});
+        var micros = $.getJSON('/api/employees/', {'department_slug': 'micros'});
+        var clinchem = $.getJSON('/api/employees/', {'department_slug': 'clinchem'});
+        var radiology = $.getJSON('/api/employees/', {'department_slug': 'radiology'});
+        var commt = $.getJSON('/api/employees/', {'department_slug': 'community-mt'});
+        var standval = $.getJSON('/api/employees/', {'department_slug': 'stand-validation'});
         $.when(dataMining).done(function(data, statusText, jqXHR) {
             var info = selectDeptArticles(articles, data, ctxDataMining);
             $('#data-mining-total-articles').text(info.totalArticles);

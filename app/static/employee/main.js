@@ -3,7 +3,7 @@
 var ctxTitle = document.getElementById('lecturer-title-chart').getContext('2d');
 var ctxDegree = document.getElementById('lecturer-degree-chart').getContext('2d');
 
-var lecturers = $.getJSON('http://localhost/api/employees/', {'job': 'lecturer'});
+var lecturers = $.getJSON('/api/employees/', {'job': 'lecturer'});
 $.when(lecturers).done(function(data, statusText, _) {
     $('#total-lecturer').text(data.length);
     var titles = categorizeByTitle(data);

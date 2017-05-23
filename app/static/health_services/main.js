@@ -1,6 +1,6 @@
 var ctx = document.getElementById("customer-chart").getContext("2d");
 
-$.getJSON("http://localhost/api/health-services/gdrive/customers/stats/", function(data) {
+$.getJSON("/api/health-services/gdrive/customers/stats/", function(data) {
     var years = [];
     var medilab = [];
     var mobile = [];

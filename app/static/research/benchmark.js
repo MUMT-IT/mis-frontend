@@ -9,8 +9,8 @@ var ctxArticleByField5 = document.getElementById('article-by-field-5').getContex
 var ctxArticleCount = document.getElementById('article-numbers').getContext('2d');
 var ctxCumArticleCount = document.getElementById('cum-article-numbers').getContext('2d');
 
-var articleByField = $.getJSON("http://localhost/api/research/abstracts/subject_areas/");
-var articleCounts = $.getJSON("http://localhost/api/research/abstracts/benchmark/numbers/")
+var articleByField = $.getJSON("/api/research/abstracts/subject_areas/");
+var articleCounts = $.getJSON("/api/research/abstracts/benchmark/numbers/")
 
 var articleByFieldCounts = {};
 var fields = ["PHAR", "CHEM", "CENG", "COMP"];

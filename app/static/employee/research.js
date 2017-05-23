@@ -19,7 +19,7 @@ var viewModel = function() {
                 'cover_date': self.articleCoverDate()
             });
         $.ajax({
-            url: "http://localhost:6600/api/employees/research/",
+            url: "/api/employees/research/",
             crossDomain: true,
             type: "post",
             data: data,

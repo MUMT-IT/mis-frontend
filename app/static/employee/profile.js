@@ -4,15 +4,15 @@ var viewModel = function() {
     self.otherPapers = ko.observableArray([]);
     self.publishedYears = ko.observableArray([]);
     self.loadData = function () {
-        $.getJSON("http://localhost:5570/api/employees/" + employee_id,
+        $.getJSON("/api/employees/" + employee_id,
             function(data) {
                 self.employee = data;
-                self.imgUrl = "http://localhost:5570/api/employees/image/" + self.employee["_id"]["$oid"];
+                self.imgUrl = "/api/employees/image/" + self.employee["_id"]["$oid"];
                 $("#profileImg").attr("src", self.imgUrl);
                 $("#employee_email").attr("href", "mailto:" + self.employee.email);
                 $("#employee_email").text(self.employee.email);
                 $("#employee_name").text(self.employee.first_name_en + " " + self.employee.last_name_en);
-                $.getJSON("http://localhost:8800/api/abstracts/authors/", {
+                $.getJSON("/api/research/abstracts/authors/", {
                     "first_name": self.employee.first_name_en,
                     "last_name": self.employee.last_name_en
                 }, function(data) {
@@ -40,7 +40,7 @@ var viewModel = function() {
                     }
                 );
                 */
-                $.getJSON("http://localhost:8800/api/employees/research/" + self.employee["_id"]["$oid"],
+                $.getJSON("/api/employees/research/" + self.employee["_id"]["$oid"],
                     function(data) {
                     $.each(data, function(ix, ar) {
                         var article = {

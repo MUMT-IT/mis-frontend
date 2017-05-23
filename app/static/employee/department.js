@@ -13,7 +13,7 @@ viewModel = function () {
     self.departmentHead = ko.observableArray([]);
     self.employees = ko.observableArray([]);
     self.loadData = function () {
-        $.getJSON("http://localhost:5570/api/employees/",
+        $.getJSON("/api/employees/",
             {"department_slug": dept_slug}, function(data) {
             $.each(data, function(idx, e) {
                 var emp = {
@@ -23,8 +23,8 @@ viewModel = function () {
                     "position": e.academic_title,
                     "email": e.email,
                     "id": e["_id"]["$oid"],
-                    "imgUrl": "http://localhost:5570/api/employees/image/" + e["_id"]["$oid"],
-                    "profileUrl": "http://localhost:5500/employee/profile/" + e["_id"]["$oid"],
+                    "imgUrl": "/api/employees/image/" + e["_id"]["$oid"],
+                    "profileUrl": "/employee/profile/" + e["_id"]["$oid"],
                 };
                 console.log(emp["degree"])
                 emp["degree_en"] = emp["degree"] == 3 ? "Dr." : "";
@@ -43,7 +43,7 @@ viewModel = function () {
                 }
                 self.employees.push(emp);
             });
-            $.getJSON("http://localhost:5570/api/affiliations/slug/" + dept_slug,
+            $.getJSON("/api/employees/affiliations/slug/" + dept_slug,
                 function(data) {
                     var d = data[0];  // a single department in an array
                     var dept = {
