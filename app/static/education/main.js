@@ -308,7 +308,6 @@ $.when(wrsDevelopment).done(function(data) {
             'year': year
         }
     })
-    console.log(data_)
     plotRadarChart(ctxWRSDev1, data_[2557]);
     plotRadarChart(ctxWRSDev2, data_[2558]);
 })
