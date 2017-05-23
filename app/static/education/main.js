@@ -8,7 +8,7 @@ var ctxWRSDev2 = document.getElementById('wrs-dev-chart-2').getContext('2d');
 var evals = $.getJSON("/api/education/evaluation/edpex/wrs/");
 var satis = $.getJSON("/api/education/evaluation/edpex/satisfaction/")
 var license = $.getJSON("/api/education/evaluation/edpex/license/")
-var wrsDevelopment = $.getJSON("http://localhost/api/education/wrs/results/development/")
+var wrsDevelopment = $.getJSON("/api/education/wrs/results/development/")
 
 $.when(evals).done(function(data) {
     var scoreData = {};
