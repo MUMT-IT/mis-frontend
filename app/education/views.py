@@ -7,6 +7,6 @@ def index():
     return render_template('education/index.html')
 
 
-@edu.route('/results/wrs')
-def show_wrs_results():
-    return render_template('education/wrs.html')
+@edu.route('/embed/undergrad/')
+def show_undergrad_results_embed():
+    return render_template('education/undergrad-embed.html')

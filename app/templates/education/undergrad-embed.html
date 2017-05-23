@@ -12,17 +12,36 @@
             type="text/javascript">
     </script>
     <script type="text/javascript"
-            src="{{ url_for('static', filename='education/main.js')}}">
+            src="{{ url_for('static', filename='education/undergrad-embed.js')}}">
     </script>
 {% endblock %}
 
 {% block content %}
-    <div class="container">
         {% block page_content %}
+        <div class="container">
             <div class="row">
-                <h1>Education : Well-rounded Scholar</h1>
-                <canvas id="wrs-chart"></canvas>
+                <h3>ผลลัพธ์ของกระบวนการพัฒนาทักษะนักศึกษาตามคุณสมบัติบัณฑิตผู้มีศักยภาพรอบด้าน (Well-rounded Scholar)
+                    <small>จากการประเมินตนเองของนักศึกษา</small></h3>
+                <canvas id="wrs-chart" height="50" width="100"></canvas>
             </div>
+            <div class="row">
+                <h3>พัฒนาการของทักษะตามคุณสมบัติบัณฑิตผู้มีศักยภาพรอบด้าน (Well-rounded Scholar)
+                    ก่อนและหลังการศึกษา <small>จากการประเมินตนเองของนักศึกษา</small></h3>
+                <div class="col-md-6">
+                    <canvas id="wrs-dev-chart-1" height="50" width="100"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="wrs-dev-chart-2" height="50" width="100"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <h3>ผลลัพธ์การสอบผ่านใบประกอบวิชาชีพของนักศึกษาเทคนิคการแพทย์</h3>
+                <canvas id="mt-license-chart" height="50" width="100"></canvas>
+            </div>
+            <div class="row">
+                <h3>ผลลัพธ์การสอบผ่านใบประกอบวิชาชีพของนักศึกษารังสีเทคนิค</h3>
+                <canvas id="rt-license-chart" height="50" width="100"></canvas>
+            </div>
+        </div>
         {% endblock %}
-    </div>
 {% endblock %}
