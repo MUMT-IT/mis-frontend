@@ -12,13 +12,17 @@
     type="text/javascript">
 </script>
 <script type="text/javascript"
-    src="{{ url_for('static', filename='research/main.js')}}">
+    src="{{ url_for('static', filename='research/recent.js')}}">
 </script>
 {% endblock %}
 
 {% block content %}
     <div class="container">
     {% block page_content %}
+        <div class="row">
+            <h3>Articles Published This Year</h3>
+            <canvas id="all-chart" height="40"></canvas>
+        </div>
         <div class="row">
             <div class="form-group col-xm-4">
                 <div class="input-group">
@@ -32,11 +36,11 @@
             </div>
             <h4 data-bind="if: query()!==''">Found <span data-bind="text: filteredArticles().length"></span></h4>
             <h3 data-bind="if: loading">Preparing the article list...</h3>
-            <ul data-bind="foreach: {data: paginated, as: 'article'}">
+            <ol data-bind="foreach: {data: paginated, as: 'article'}">
                 <li>
-                    <span data-bind="text: article.title"></span>
                     <a href="#" role="button" data-toggle="modal"
-                        data-bind='attr: {"data-target": "#" + $index()}'><span class="glyphicon glyphicon-list-alt"></span></a> 
+                        data-bind='attr: {"data-target": "#" + $index()}'><span data-bind="text: article.title"></span>
+                    </a>
                      <span data-bind="text: 'Cited ' + article.citedByCount" class="badge"></span>
                     <strong><span data-bind="text: article.journal"></span></strong>
                     <span data-bind="text: article.coverDateString"></span>
@@ -44,7 +48,7 @@
                         <span data-bind="text: name"></span>,
                     </span></small>
                 </li>
-            </ul>
+            </ol>
             <!-- ko foreach: filteredArticles -->
                 <div class="modal fade" data-bind='attr: {"id": $index()}' role="dialog">
                     <div class="modal-dialog" role="document">
