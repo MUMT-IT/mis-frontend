@@ -4,10 +4,13 @@ var ctxMtLicense = document.getElementById('mt-license-chart').getContext('2d');
 var ctxRtLicense = document.getElementById('rt-license-chart').getContext('2d');
 var ctxWRSDev1 = document.getElementById('wrs-dev-chart-1').getContext('2d');
 var ctxWRSDev2 = document.getElementById('wrs-dev-chart-2').getContext('2d');
+var ctxMtEmployment = document.getElementById('mt-employment-chart').getContext('2d');
+var ctxRtEmployment = document.getElementById('rt-employment-chart').getContext('2d');
 
 var evals = $.getJSON("/api/education/evaluation/edpex/wrs/");
 var satis = $.getJSON("/api/education/evaluation/edpex/satisfaction/")
 var license = $.getJSON("/api/education/evaluation/edpex/license/")
+var employment = $.getJSON("/api/education/evaluation/edpex/employment/")
 var wrsDevelopment = $.getJSON("/api/education/wrs/results/development/")
 
 $.when(evals).done(function(data) {
@@ -237,6 +240,142 @@ $.when(license).done(function(data) {
                     },
                     scaleLabel: {
                         labelString: "ร้อยละผู้สอบผ่าน",
+                        fontSize: 16,
+                        display: true
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        fontSize: 14
+                    }
+                }]
+            },
+            legend: {
+                labels: {
+                    fontSize: 14
+                }
+            }
+        }
+    })
+})
+
+$.when(employment).done(function(data) {
+    var years = [];
+    var mumt = [];
+    var mtkku = [];
+    var mtcmu = [];
+    var murt = [];
+    var rtcmu = [];
+    $.each(data.data.mt, function(idx, d) {
+        if(d.institute==="MUMT") {
+            years.push(d.year);
+            mumt.push(d.percent);
+        } else if (d.institute==="MT-KKU") {
+            mtkku.push(d.percent);
+        } else if (d.institute==="MT-CMU") {
+            mtcmu.push(d.percent);
+        } else {
+            // pass
+        }
+    })
+    $.each(data.data.rt, function(idx, d) {
+        if(d.institute==="MURT") {
+            murt.push(d.percent);
+        } else if (d.institute==="RT-CMU") {
+            rtcmu.push(d.percent);
+        } else {
+            // pass
+        }
+    })
+    var mtEmploymentChart = new Chart(ctxMtEmployment, {
+        type: 'line',
+        data: {
+            labels: years,
+            datasets: [
+                {
+                    data: mumt,
+                    label: "MUMT",
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "#0317AF",
+                    borderColor: "#0317AF"
+                },
+                {
+                    data: mtcmu,
+                    label: "MT-CMU",
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "#9803AF",
+                    borderColor: "#9803AF"
+                },
+                {
+                    data: mtkku,
+                    label: "MT-KKU",
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "#AF7303",
+                    borderColor: "#AF7303"
+                }
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        fontSize: 14,
+                        min: 70
+                    },
+                    scaleLabel: {
+                        labelString: "ร้อยละผู้ได้งานทำ",
+                        fontSize: 16,
+                        display: true
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        fontSize: 14
+                    }
+                }]
+            },
+            legend: {
+                labels: {
+                    fontSize: 14
+                }
+            }
+        }
+    })
+    var rtEmploymentChart = new Chart(ctxRtEmployment, {
+        type: 'line',
+        data: {
+            labels: years,
+            datasets: [
+                {
+                    data: murt,
+                    label: "MURT",
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "#0317AF",
+                    borderColor: "#0317AF"
+                },
+                {
+                    data: rtcmu,
+                    label: "RT-CMU",
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "#9803AF",
+                    borderColor: "#9803AF"
+                },
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        fontSize: 14,
+                        min: 70
+                    },
+                    scaleLabel: {
+                        labelString: "ร้อยละผู้ได้งานทำ",
                         fontSize: 16,
                         display: true
                     }
