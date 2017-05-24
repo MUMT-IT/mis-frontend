@@ -16,11 +16,23 @@ $.getJSON("/api/health-services/gdrive/customers/stats/", function(data) {
             if(v.center_slug==="medilab-center" && v.year===d.year) {
                 medilab.push(v.customers)
             } else if(v.center_slug==="mobile-unit") {
-                mobile.push(v.customers)
+                if (v.customers===0) {
+                    mobile.push(null);
+                } else {
+                    mobile.push(v.customers)
+                }
             } else if(v.center_slug==="toxicology") {
-                toxicology.push(v.customers)
+                if (v.customers===0) {
+                    toxicology.push(null);
+                } else {
+                    toxicology.push(v.customers)
+                }
             } else if(v.center_slug==="chromosome") {
-                chromosome.push(v.customers)
+                if (v.customers===0) {
+                    chromosome.push(null);
+                } else {
+                    chromosome.push(v.customers);
+                }
             } else if(v.center_slug==="gjmt") {
                 gjmt.push(v.customers)
             } else if(v.center_slug==="gjrt") {
@@ -32,7 +44,12 @@ $.getJSON("/api/health-services/gdrive/customers/stats/", function(data) {
     })
     for(var i=0; i<gjmt.length; i++) {
         gj.push(gjmt[i] + gjrt[i]);
-        excellentCenter.push(toxicology[i] + chromosome[i] + mobile[i]);
+        var totalExcellentCenter = toxicology[i] + chromosome[i] + mobile[i];
+        if (totalExcellentCenter===0 || toxicology[i] === null ||
+            chromosome[i] === null || mobile[i] === null) {
+            totalExcellentCenter = null;
+        }
+        excellentCenter.push(totalExcellentCenter);
     }
     plotChart(ctx, years, medilab, mobile, toxicology, chromosome, gjmt, gjrt, excellentCenter, gj);
 })
@@ -49,13 +66,15 @@ var plotChart = function (canvas, years, medilab, mobile, toxicology, chromosome
                     data: medilab,
                     borderColor: "rgba(65,14,117,0.8)",
                     backgroundColor: "rgba(65,14,117,0.8)",
-                    fill: false
+                    fill: false,
+                    tension: 0.1
                 },
                 {
                     label: "หน่วยสุขภาพเคลื่อนที่",
                     data: mobile,
                     borderColor: "rgba(20,6,153,0.8)",
                     backgroundColor: "rgba(20,6,153,0.8)",
+                    tension: 0.1,
                     fill: false
                 },
                 {
@@ -63,6 +82,7 @@ var plotChart = function (canvas, years, medilab, mobile, toxicology, chromosome
                     data: toxicology,
                     borderColor: "rgba(6,153,30,0.8)",
                     backgroundColor: "rgba(6,153,30,0.8)",
+                    tension: 0.1,
                     fill: false
                 },
                 {
@@ -70,6 +90,7 @@ var plotChart = function (canvas, years, medilab, mobile, toxicology, chromosome
                     data: chromosome,
                     borderColor: "rgba(153,82,6,0.8)",
                     backgroundColor: "rgba(153,82,6,0.8)",
+                    tension: 0.1,
                     fill: false
                 },
                 {
@@ -77,6 +98,7 @@ var plotChart = function (canvas, years, medilab, mobile, toxicology, chromosome
                     data: gjmt,
                     borderColor: "rgba(153,6,13,0.8)",
                     backgroundColor: "rgba(153,6,13,0.8)",
+                    tension: 0.1,
                     fill: false
                 },
                 {
@@ -84,6 +106,7 @@ var plotChart = function (canvas, years, medilab, mobile, toxicology, chromosome
                     data: gjrt,
                     borderColor: "rgba(6,145,153,0.8)",
                     backgroundColor: "rgba(6,145,153,0.8)",
+                    tension: 0.1,
                     fill: false
                 },
                 {
@@ -91,6 +114,7 @@ var plotChart = function (canvas, years, medilab, mobile, toxicology, chromosome
                     data: gj,
                     borderColor: "rgba(252,240,10,0.8)",
                     backgroundColor: "rgba(252,240,10,0.5)",
+                    tension: 0.1,
                     fill: true
                 },
                 {
@@ -98,9 +122,25 @@ var plotChart = function (canvas, years, medilab, mobile, toxicology, chromosome
                     data: excellentCenter,
                     borderColor: "rgba(63,214,252,0.8)",
                     backgroundColor: "rgba(63,214,252,0.5)",
+                    tension: 0.1,
                     fill: true
                 }
             ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    type: "logarithmic",
+                    ticks: {
+                        fontSize: 16
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        fontSize: 16
+                    }
+                }]
+            },
         }
     })
 }
