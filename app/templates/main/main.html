@@ -15,7 +15,10 @@
 {% block page_content %}
 <div class="container">
     <div>
-        <h4 class="center-align">Management Information System</h4>
+        <div class="center-align">
+            <img class="responsive-img" src="{{ url_for('static', filename='img/Mahidol_MedTech1-4.jpg') }}" width="300">
+        </div>
+        <h5 class="center-align">Management Information System</h5>
         <h5 class="center-align">ระบบจัดการข้อมูลสำหรับงานบริหาร<br>คณะเทคนิคการแพทย์มหาวิทยาลัยมหิดล</h5>
     </div>
     <ul class="collapsible popout" data-collapsible="accordion">
@@ -37,8 +40,8 @@
         </li>
         <li>
             <div class="collapsible-header"><i class="material-icons">account_circle</i>Staff Login</div>
-            <div class="collapsible-body"><span>ระบบ MIS รองรับเฉพาะผู้ใช้งานที่มีบัญชีอีเมลของ Google education ของมหาวิทยาลัยมหิดลที่มีรูปแบบ name.xxx@mahidol.edu เท่านั้น
-                โปรด<a href="/">ลงทะเบียนอีเมล</a> หรือ <a href="/">sign in</a> เพื่อเข้าใช้งานระบบ</span></div>
+            <div class="collapsible-body"><span>บางส่วนของระบบ MIS รองรับเฉพาะผู้ใช้งานที่มีบัญชีอีเมลของ Google education ของมหาวิทยาลัยมหิดลที่มีรูปแบบ name.xxx@mahidol.edu เท่านั้น
+                โปรด<a href="/">ลงทะเบียนอีเมล</a> หรือ <a href="{{ url_for('user.index')}}">sign in</a> เพื่อเข้าใช้งานระบบถ้าหากท่านมีอีเมลแล้ว</span></div>
         </li>
     </ul>
 </div>
